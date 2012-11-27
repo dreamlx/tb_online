@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>Dicts: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'tb' %>
+</head>
+<body>
+  <div id="banner">
+    <%= @page_title || "ThinkBridge " %>
+  </div>
+  
+<p style="color: green"><%= flash[:notice] %></p>
+  
+  <div id="columns">
+    <div id="side">
+      <a href="/login">Home page</a>
+      <a href="/projects">Project</a>
+      <a href="/people">employee</a>
+      <a href="/clients/list">Clients</a>
+      <a href="/dicts">dictionary</a>
+      <a href="/industries">industry</a>
+    </div>
+
+    <div id="main">
+      <%= @content_for_layout %>
+    </div>
+
+  </div>
+<%#= yield  %>
+
+</body>
+</html>

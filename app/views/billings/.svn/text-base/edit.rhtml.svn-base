@@ -1,0 +1,39 @@
+<h1>Editing billing</h1>
+<div>doesn't key any word into [Amount]</div>
+<%= start_form_tag :action => 'update', :id => @billing %>
+  <p><b>Project:</b><br>
+   <select name="billing[project_id]">
+    <% @projects.each do |project| %>
+       <option value="<%= project.id %>" 
+         <%= ' selected' if project.id == @billing.project_id %>>
+         <%=project.job_code %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+  <p><b>Period:</b><br>
+   <select name="billing[period_id]">
+    <% @periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%= ' selected' if period.id == @billing.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+  </p>  
+  <p><b>Prepared_by:</b><br>
+   <select name="billing[person_id]">
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @billing.person_id %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+  </p>  
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+<%= link_to 'Show', :action => 'show', :id => @billing %> |
+<%= link_to 'Back', :action => 'list', :id => @billing.project_id %>

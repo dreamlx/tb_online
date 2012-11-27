@@ -1,0 +1,50 @@
+<h1>Listing personalcharges</h1>
+<h3>Now period:<%=@now_period.number if not @now_period.nil?%></h3>
+
+<hr>
+<table>
+  <tr>
+    <th>Job code</th>
+    <th>Employee name</th> 
+    <th>Period</th>  
+  <% for column in Personalcharge.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+    <th>##</th>
+    <th>##</th>
+    <th>##</th>
+  </tr>
+  
+<% for personalcharge in @personalcharges %>
+  <tr>
+    <td><%=personalcharge.project.job_code%></td>
+    <td><%=personalcharge.person.english_name %></td>
+    <td><%=personalcharge.period.number%></td>
+  <% for column in Personalcharge.content_columns %>
+    <td><%=h personalcharge.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => personalcharge %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => personalcharge if personalcharge.project.status.title == 'Active'%></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', 
+                               :id => personalcharge, 
+                               :prj_id =>personalcharge.project_id, 
+                               :person_id => personalcharge.person_id  }, 
+                               :confirm => 'Are you sure?', :post => true if personalcharge.project.status.title == 'Active'%></td>
+  </tr>
+<% end %>
+
+</table>
+<% for page in @personalcharge_pages -%>
+    <%= link_to_unless(params[:page].to_i == page.number, 
+    page.number,  {:params => 
+    params.merge('page' => page)}) %>&nbsp;
+<% end -%>
+<br />
+<%= link_to 'First page', { :page => @personalcharge_pages.first_page } %> 
+<%= link_to 'Previous page', { :page => @personalcharge_pages.current.previous,:person_id => personalcharge.person_id  } if @personalcharge_pages.current.previous %>
+<%= link_to 'Next page', { :page => @personalcharge_pages.current.next,:person_id => personalcharge.person_id  } if @personalcharge_pages.current.next %> 
+<%= link_to 'Last page', { :page => @personalcharge_pages.last_page } %> 
+<br />
+
+<%= link_to 'New personalcharge', :action => 'new', :id=>params[:id], :person_id => params[:person_id]  %>
+|<%= link_to 'Back', :controller =>'people', :action => 'show', :id => params[:person_id] %>

@@ -1,0 +1,39 @@
+<h1>Editing commission</h1>
+
+<%= start_form_tag :action => 'update', :id => @commission %>
+  <b>Project:</b><br>
+   <select name="commission[project_id]">
+    <% @projects.each do |project| %>
+       <option value="<%= project.id %>" 
+         <%= ' selected' if project.id == @commission.project_id %>>
+         <%=project.job_code %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+  <b>Period:</b><br>
+   <select name="commission[period_id]">
+    <% @periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%= ' selected' if period.id == @commission.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+  </p> 
+  <b>Prepared_by:</b><br>
+   <select name="commission[person_id]">
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @commission.person_id %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+  </p>       
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+<%= link_to 'Show', :action => 'show', :id => @commission %> |
+<%= link_to 'Back', :action => 'list', :id => @commission.project_id %>

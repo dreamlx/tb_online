@@ -1,0 +1,165 @@
+<html>
+  <head>
+    <title><%= controller.action_name %></title>
+    <%= stylesheet_link_tag 'tb','styles','tablecloth' %>
+
+    <%= javascript_include_tag :defaults,'calenderJS','Calendar4','nodefire'%>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--******************* Include the following sections in the head of year documents **********************-->
+
+
+    <!--NodeFire API Script Reference [required for script enhanced menu control]-->
+
+    <script type="text/javascript" src="/javascripts/nodefire.js"></script>
+
+
+    <!--Menu Widget Core CSS [Do not modify!]-->
+
+    <!--[if lte IE 6]><style type="text/css">.nfPure .nfItem{width:0px;}</style><![endif]-->
+    <!--[if lte IE 7]><style type="text/css">.nfMain,.nfMain .nfLink,.nfMain .nfSubS{zoom:1;}.nfPure .nfLink:hover{z-index:1101;}.nfPure .nfItem{display:inline !important;}</style><![endif]-->
+    <style type="text/css">.nfMain, .nfSubC, .nfSubS{list-style:none;margin:0px;padding:0px;}.nfMain{position:relative;z-index:1;}.nfMain .nfSubC{visibility:hidden;position:absolute;}.nfMain .nfItem, .nfMain .nfLink{list-style:none;position:relative;display:block;white-space:nowrap;margin:0px;}.nfMain:after{content: ".";display:block;height:0px;clear:both;overflow:hidden;}.nfPure .nfItem:hover, .nfPure .nfItem:hover>.nfSubC{z-index:1101;visibility:inherit;}.nfPure .nfLink:focus{z-index:1102;}.nfMain .nfJSActiveItem{z-index:1101;}.nfMain .nfJSShowSub{z-index:1101;visibility:inherit;}.nfMain .nfItem div.nfLink {cursor:default;}.nfMain .nfItem {float:left;}.nfMain .nfItem .nfItem {float:none;}.nfMain .nfItem .nfSubC {top:100%;left:0px;width:auto;}.nfMain .nfSubC .nfItem .nfSubC {top:0px;left:100%;width:auto;}</style>
+
+
+    <!--Menu Widget Core CSS - Tree Style Layout [Do not modify!]-->
+
+    <style type="text/css">.nfMain .nfItem {float:none;width:auto;}.nfMain .nfSubS .nfSubC {height:auto;}.nfMain .nfJSShowSub {position:relative;left:0px !important;top:0px  !important;}.nfMain .nfSubC .nfJSShowSub {position:absolute;top:0px  !important;left:100%  !important;}.nfPure .nfItem:hover>.nfSubC {position:relative;left:0px;top:0px;}.nfPure .nfSubC .nfItem:hover>.nfSubC {position:absolute;top:0px;left:100%;}</style>
+
+
+    <!--Menu Widget CSS Styles [edit styles.css to change the look of the menu]-->
+
+
+
+
+
+    <!--******************* End NodeFire head sections **********************-->
+
+
+
+  </head>
+  <body>
+    <div id="banner">
+      <%= render :partial => '/layouts/banner' %>
+
+    </div>
+
+    <div id="main_area"> 
+	<a class="nfLink" href="/login/logout" style="float:right;<%= "display:none;" if !session[:user_id]%>">Logout</a> 
+<% if session[:user_id]%>
+      <% @admin = get_role(session[:user_id],'admin') %>
+      <% partner = get_role(session[:user_id],'partner') %>
+      <% manager = get_role(session[:user_id],'manager') %>
+        <div id="left_area" >
+
+          <ul id="myMenu" class="nfMain nfPure">
+            <li class="nfItem"><a class="nfLink" href="/login">Home</a>
+            </li>
+            <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="/personalcharges">TimeReport</a>
+            </li>
+            <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="/billings">Billings</a>
+            </li>
+			<li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="/expenses">Expenses</a>
+            </li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Form</a>
+				
+              <div class="nfSubC">
+			  <ul class="nfSubS">
+                  <li class="nfItem"> <a class="nfLink" href="/reports">Reports</a> </li>
+                  <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="/projects">Project</a></li>
+                  <li class="nfItem" ><%= link_to 'Billing', {:controller => 'billings', :action =>"search"},{:class=>"nfLink"} %></li>
+
+                  <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="/people">Employee</a></li>
+                  <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="/clients/list">Clients</a></li>
+                </ul></div>
+
+            </li>
+            <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"><a class="nfLink" href="javascript:void(0)">Searching</a>
+
+              <div class="nfSubC"><ul class="nfSubS">
+                  <li class="nfItem"> <%= link_to 'Expense', {:controller => 'expenses'},{:class=>"nfLink"} %></li>
+                  <li class="nfItem"> <%= link_to 'TimeReport', {:controller => 'personalcharges',   :action =>'search'},{:class=>"nfLink"} %></li>
+                  <li class="nfItem"> <%= link_to 'Billing', {:controller => 'billings', :action =>"search"},{:class=>"nfLink"} %></li>
+
+                </ul></div>
+
+            </li>
+            <li class="nfItem" ><a class="nfLink" href="javascript:void(0)">Peferences</a>
+
+              <div class="nfSubC">
+				<ul class="nfSubS">
+                  <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"> <a class="nfLink" href="/dicts">dictionary</a> </li>
+                  <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"> <a class="nfLink" href="/industries">industry</a> </li>
+                  <li class="nfItem" style="<%='display:none;' if (partner or manager)%>"> <a class="nfLink" href="/periods">period</a> </li>
+                  <li class="nfItem"> <a class="nfLink" href="/login/list">user&password</a> </li>
+                </ul>
+              </div>
+
+            </li>
+            <li class="nfItem"><a class="nfLink" href="/login/logout">Logout</a> </li>
+
+          </ul>
+
+
+          <!--***************** End menu structure. *********************-->
+
+
+
+
+          <!--******* Custom API Script - Place custom scripts in the body, after the structure, or attach to an onload type event. ******
+                      (This script example enhances the pure CSS menu with scripted API control. *****-->
+
+
+          <script type="text/javascript">
+
+
+
+            /* ~~~~~~~ Create a new menu widget object with the API. ~~~~~~~~~~~~~*/
+
+            //Menu configuration properties (hide and show timers in Milliseconds)
+            var config = {showTimerMS:250,hideTimerMS:250};
+
+            //Pass the menu object construcor an ID or object representing the root node of your structure
+            var myMenu = new NF.widget.menu("myMenu", config);
+
+
+
+            /* ~~~~~~~ Show Sub Animation Effect ~~~~~~~~~~~~~*/
+
+            //Create a show sub animation clip (Use the CSS clip style to reveal the sub)
+            var showClip = new NF.anim.clip({height:{start:'0px', end:{value:"100%",refNode:"self"}}}, {frames:10, reset:true, hook:'NFplayOnSubShow',  startStyles:{overflow:'hidden'}, endStyles:{overflow:'visible'}});
+
+            //Create a hide sub animation clip
+            var hideClip = new NF.anim.clip({height:{start:{value:"100%",refNode:"self"}, end:'0px'}}, {frames:10, reset:true, hook:'NFplayOnSubHide', startStyles:{overflow:'hidden'}});
+
+            //Get all sub menu containers
+            var subs = NF.widget.hierStructure.getSubsByLevel($("myMenu"), "level==0");
+
+            //Apply the hide and show clips to the menu subs as transitions
+            NF.anim.transition.applyTimeline(subs, showClip);
+            NF.anim.transition.applyTimeline(subs, hideClip);
+
+
+
+
+            /* ~~~~~~~ Activate the menu object. (Converts the pure CSS menu to a script enhanced widget) ~~~~~~~~~~~~~*/
+
+            //Activate the menu
+            myMenu.activate();
+
+
+
+          </script>
+
+        </div>
+      <% end %>
+      <div id="middle_area" style="<%=' float:left;padding-left:20px;' if session[:user_id]%>">
+        <p><%= flash[:notice] %></p>
+        <%= @content_for_layout %>
+      </div>
+      <div id="right_area"></div>
+
+    </div>
+    <div id="footer">
+      <%= render :partial => '/layouts/footer' %>
+    </div>
+  </body>
+</html>

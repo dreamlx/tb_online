@@ -1,0 +1,11 @@
+<% for column in Commission.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @commission.send(column.name) %>
+</p>
+<% end %>
+<p>
+<b>Prepared by</b></td>
+    <td><%=@commission.person.english_name%></td>
+</p>
+<%= link_to 'Edit', :action => 'edit', :id => @commission if @commission.project.status.title == 'Active'%> |
+<%= link_to 'Back', :action => 'list', :id => @commission.project_id %>

@@ -1,0 +1,41 @@
+<h1>Listing personalcharges</h1>
+Now period:<%=@now_period.number if not @now_period.nil?%>
+
+<hr>
+<table>
+  <tr>
+    <th>Job code</th>
+    <th>Employee name</th>   
+  
+  <% for column in Personalcharge.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for personalcharge in @personalcharges %>
+  <tr>
+    <td><%=personalcharge.project.job_code%></td>
+    <td><%=personalcharge.person.english_name %></td>  
+
+  <% for column in Personalcharge.content_columns %>
+    <td><%=h personalcharge.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'prj_show', :id => personalcharge %></td>
+    <td><%#= link_to 'Edit', :action => 'edit', :id => personalcharge %></td>
+    <td><%#= link_to 'Destroy', { :action => 'destroy', 
+          #                     :id => personalcharge, 
+          #                     :prj_id =>personalcharge.project_id, 
+          #                     :person_id => personalcharge.person_id  }, 
+          #                     :confirm => 'Are you sure?', :post => true 
+          %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @personalcharge_pages.current.previous } if @personalcharge_pages.current.previous %>
+<%= link_to 'Next page', { :page => @personalcharge_pages.current.next } if @personalcharge_pages.current.next %> 
+
+<br />
+
+<%#= link_to 'New personalcharge', :action => 'new', :id=>params[:id], :person_id => params[:person_id]  %>
+|<%= link_to 'Back', :controller =>'projects', :action => 'show', :id => params[:id] %>

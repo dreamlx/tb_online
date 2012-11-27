@@ -1,0 +1,2 @@
+module OutsourcingsHelper
+end

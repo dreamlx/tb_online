@@ -1,0 +1,11 @@
+<% for column in Outsourcing.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @outsourcing.send(column.name) %>
+</p>
+<% end %>
+<p>
+<b>Prepared by</b></td>
+    <td><%=@outsourcing.person.english_name%></td>
+</p>
+<%= link_to 'Edit', :action => 'edit', :id => @outsourcing %> |
+<%= link_to 'Back', :action => 'list', :id => @outsourcing.project_id %>

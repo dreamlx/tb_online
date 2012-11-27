@@ -1,0 +1,9 @@
+<h1>Editing receive_amount</h1>
+
+<%= start_form_tag :action => 'update', :id => @receive_amount %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+<%= link_to 'Show', :action => 'show', :id => @receive_amount %> |
+<%= link_to 'Back', :action => 'show', :controller => 'billings', :id => @receive_amount.billing_id %>

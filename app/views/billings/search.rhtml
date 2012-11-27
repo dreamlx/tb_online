@@ -1,0 +1,154 @@
+<h1>Searching billings</h1>
+<%#= @sql%>
+<form action="/billings/search" method="POST">
+  <table width=600>
+    <tr>
+      <td>
+        <p>
+          Billing number:<br>
+          <%= text_field("billing", "number") %>
+        </p>
+      </td>
+      <td>
+        <b>Project:</b><br>
+        <select name="billing[project_id]" >
+          <option value="">ALL</option>
+          <% @projects.each do |project| %>
+            <option value="<%= project.id %>"
+                    <%= ' selected' if project.id == @billing.project_id %>>
+                    <%=project.job_code %>
+            </option>
+          <% end %>
+        </select>
+      </td>
+      <td>
+        <b>Filter:</b><br>
+        <select name="billing[status]">
+          <option value="" >ALL</option>
+          <option value="0" >Outstanding</option>          
+          <option value="1" >Received</option>
+        </select>
+<select name="person_id" disabled="<%= 'disabled' if @now_user != 0 %>">
+<option value="" >All PM</option>
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @now_user %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+      </td>
+      <td>
+        <p><label for="period_starting_date">Starting date</label><br/>
+
+          <%= text_field 'period','starting_date', 'size'=>"15" %>
+          <input name="" type="button"
+                 onclick="MyCalendar.SetDate(this,document.getElementById('period_starting_date'))" value="select" />
+        <%#= date_select 'period', 'starting_date'  %></p>
+
+
+      </td>
+      <td>
+        <p><label for="period_ending_date">Ending date</label><br/>
+          <%= text_field 'period','ending_date', 'size'=>"15" %>
+          <input name="" type="button"
+                 onclick="MyCalendar.SetDate(this,document.getElementById('period_ending_date'))" value="select" />
+        <%#= date_select 'period', 'ending_date'  %></p>
+
+      </td>
+    </tr>
+  </table>
+  <br>
+  <input type="submit" value="Search" />
+</form>
+
+<hr>
+<font color=red>Record Count:</font><%=@b_count%>
+<%= link_to 'PRINT',{:controller => 'reports', 
+  :action => 'billing_export',
+  :p_sql => @p_sql,
+  :p_condition => @p_condition,
+  :p_order => @p_order},
+  :target=>"_blank"%>
+
+<table >
+  <tr>
+    <th>Job code</th>
+    <th>Ref Manager</th>
+    <th>Billing Partner</th>
+    <th>Billing Manager</th>
+    <th>Billing No</th>
+    <th>Service billing</th>
+    <th>Expense billing</th>
+    <th>Total</th>
+    <th>Received</th>
+    <th>Outstanding</th>
+    <th>Write-off</th>
+    <th>Outstanding Net</th>
+    <th>Provision</th>
+    <th>days of ageing</th>
+    <th>Status</th>
+    
+    <!--th>Collection_days</th-->
+    <!--th>Business Tax</th-->
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% 
+  odd_or_even = 0
+ 
+  %>
+  <% for billing in @billings %>
+    <tr class="ListLine<%= odd_or_even %>" align="right">
+      <td ><%=billing.project.job_code%></td>
+      <% unless billing.project.nil? %>
+        <td><%=billing.project.referring.english_name unless billing.project.referring.nil? %></td>
+        <td><%=billing.project.billing_partner.english_name unless billing.project.billing_partner.nil? %></td>
+        <td><%=billing.project.billing_manager.english_name unless billing.project.billing_manager.nil? %></td>
+        <td><%=billing.number%></td>
+      <% end %>
+      <%
+      @sum_receive = ReceiveAmount.sum('receive_amount', :conditions =>['billing_id = ?', billing.id ])||0
+      @outstanding_net = billing.outstanding - billing.write_off
+    %>
+      <td><%=billing.service_billing%></td>
+      <td><%=billing.expense_billing%></td>
+      <td><%=billing.amount%></td>
+      <td><%=@sum_receive %></td>
+      <td><%=billing.outstanding%></td>
+      <td><%=billing.write_off%></td>
+
+      <td ><%=@outstanding_net||0%></td>
+      <td><%=billing.provision||0%></td>
+      <td><%=billing.days_of_ageing%></td>
+
+      <td><%=h "outstanding" if billing.status.to_i == 0 %><%=h "received" if billing.status.to_i == 1 %></td>
+
+      
+      <!--td><%#=billing.collection_days||""%></td-->
+        <!--td><%#=billing.business_tax%></td-->
+      <td><%= link_to 'Show', :action => 'show', :id => billing %></td>
+      <td><%= link_to 'Edit', :action => 'edit', :id => billing if billing.status == '0'%></td>
+      <td><%#= link_to 'Destroy', { :action => 'destroy', :id => billing,  :prj_id =>billing.project_id  }, :confirm => 'Are you sure?', :post => true %></td>
+    </tr>
+  <% end %>
+  <tr bgcolor = yellow align="right">
+    <td COLSPAN=5>Total</td>
+    <td><%= @b_total.service_billing%></td>
+    <td><%=@b_total.expense_billing%></td>
+    <td><%=@b_total.amount%></td>
+    <td><%= @sum_recieve_all%></td>
+    <td><%=@b_total.outstanding%></td>
+    <td><%=@b_total.write_off||0%></td>
+    <td><%=(@b_total.outstanding-@b_total.write_off)%></td>
+    <td><%= @b_total.provision||0 %></td>
+    <td COLSPAN=5>###</td>
+    
+
+
+  </tr>
+</table>
+
+
+

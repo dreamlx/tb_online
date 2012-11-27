@@ -1,0 +1,9 @@
+<h1>Editing dict</h1>
+
+<%= start_form_tag :action => 'update', :id => @dict %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+<%= link_to 'Show', :action => 'show', :id => @dict %> |
+<%= link_to 'Back', :action => 'list' %>

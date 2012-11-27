@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>Initialfees: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'tb' %>
+</head>
+<body>
+  <div id="banner">
+    <%= @page_title || "ThinkBridge " %>
+  </div>
+  
+<p style="color: green"><%= flash[:notice] %></p>
+  
+  <div id="columns">
+    <div id="side">
+      <a href="/login">Home page</a>
+      <a href="/projects">Project</a>
+      <a href="/people">employee</a>
+      <a href="/clients/list">Clients</a>
+      <a href="/dicts">dictionary</a>
+      <a href="/industries">industry</a>
+     
+      <p>
+      <a href=#>Listing:</a>
+      <%= link_to '#Billing',           :controller => 'billings', :action =>'search' %>
+      <%= link_to '#Expense',           :controller => 'expenses', :action =>'search' %>
+      <%= link_to '#Initialfee',           :controller => 'initialfees', :action =>'list' %>
+      <%= link_to '#InitDeduction',           :controller => 'deductions', :action =>'list' %>
+      </p>
+    </div>
+
+    <div id="main">
+      <%= @content_for_layout %>
+    </div>
+
+  </div>
+<%#= yield  %>
+
+</body>
+</html>

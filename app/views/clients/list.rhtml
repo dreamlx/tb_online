@@ -1,0 +1,46 @@
+<h1>Listing clients</h1>
+
+<hr>
+<table>
+<tr>
+<td>Chinese name</td>
+<td>English name</td>
+<td>Client code</td>
+<td>Account Owner</td>
+<!--show,edit,destroy-->
+<td></td>
+<td></td>
+<td></td>
+</tr>
+  
+<% for client in @clients %>
+  <tr>
+    <td><%=client.chinese_name%></td>
+    <td><%=client.english_name%></td>
+    <td><b><%=client.client_code%></b></td>
+    <td><%=client.person.english_name unless client.person.blank?%></td>
+    
+    <td><%= link_to 'Show', :action => 'show', :id => client %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => client %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => client }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+<% for page in @client_pages -%>
+    <%= link_to_unless(params[:page].to_i == page.number, 
+    page.number,  {:params => 
+    params.merge('page' => page)}) %>&nbsp;
+<% end -%>
+<br />
+<%= link_to 'First page', { :page => @client_pages.first_page } %> 
+<%= link_to 'Previous page', { :page => @client_pages.current.previous } if @client_pages.current.previous %>
+<%= link_to 'Next page', { :page => @client_pages.current.next } if @client_pages.current.next %> 
+<%= link_to 'Last page', { :page => @client_pages.last_page } %> 
+<br />
+
+<%= link_to 'New client', :action => 'new' %>
+<hr>
+ <form action="/clients/search" method="POST">
+ Client Code:<%= text_field("client", "client_code") %>
+ <input type="submit" value="Search" /> 
+ </form>

@@ -1,0 +1,24 @@
+<h1><%=_ "Listing %s", Period.human_name %></h1>
+
+<table>
+  <tr>
+    <th><%= Period.human_attribute_name("number") %></th>
+    <th><%= Period.human_attribute_name("starting_date") %></th>
+    <th><%= Period.human_attribute_name("ending_date") %></th>
+  </tr>
+  
+<% for period in @periods %>
+  <tr>
+    <td><%=h period.number %></td>
+    <td><%=h period.starting_date %></td>
+    <td><%=h period.ending_date %></td>
+    <td><%= link_to _('View'), period_path(period) %></td>
+    <td><%= link_to _('Edit'), edit_period_path(period) %></td>
+    <td><%= link_to _('Destroy'), period_path(period), :confirm => _('Are you sure?'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= will_paginate @periods %>
+<%= link_to _("New %s", Period.human_name), new_period_path %>

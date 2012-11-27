@@ -1,0 +1,32 @@
+<% @admin = get_role(session[:user_id],'admin') %>
+<h1>Listing users</h1><%=session[:user_id]%>|<%=session[:login_user_id]%>|<%=@name%>|<%=@vals.each{|x|}%>
+
+<table>
+  <tr>
+  <% for column in User.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  <th colspan=3></th>
+  </tr>
+  
+<% for user in @users %>
+  <% if (session[:login_user_id].to_s != user.id.to_s and !@admin)%>
+    <% next  %>
+  <% end %>
+  <tr>
+  <% for column in User.content_columns %>
+    <td><%=h user.send(column.name) %></td>
+  <% end %>
+    <td><%#= link_to 'Show', :action => 'show', :id => user %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => user %></td>
+    <td><%= link_to 'Del', { :action => 'destroy', :id => user }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'First page', { :page => @user_pages.first_page } %> 
+<%= link_to 'Previous page', { :page => @user_pages.current.previous } if @user_pages.current.previous %>
+<%= link_to 'Next page', { :page => @user_pages.current.next } if @user_pages.current.next %> 
+<%= link_to 'Last page', { :page => @user_pages.last_page } %> 
+<br />
+<%= link_to 'Add user', :action => 'add_user' %>

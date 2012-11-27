@@ -1,0 +1,425 @@
+<table width=750 border="0" cellspacing="0" cellpadding="0" align="center">
+<tr>
+    <td height="330"> 
+      
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr> 
+        <td height="14">           
+        </td>
+      </tr>
+      <tr> 
+        <td height="2" valign="top"> 
+          <div align="center"> 
+            <hr size="1">
+          </div>
+        </td>
+      </tr>
+    </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <TBODY>
+          <tr> 
+			  <td width="740" height="179" valign="top"><font color="#005500" class="font"> 
+                POSITION:INVESTMENT</font><br>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                  <tr> 
+                    <td width="110%" height=""> <table width="100%" border="0">
+                        <div align="center"></div>
+                        <tr> 
+                          <td height="21"><div align="center"> 
+                              <p class="font">INVESTMENT REPORT(<%=@now_period.number%>)</p>
+                            </div></td>
+                        </tr>
+                      </table>
+                      <table width="95%" border="0" align="center">
+                        <tr class="font"> 
+                          <td width="100%" height="17"> <div align="center">CLIENT 
+                              ACCOUNTING </div></td>
+                        </tr>
+                        <tr class="font"> 
+                          <td height="19"> <div align="center">JOB SUMMARY </div></td>
+                        </tr>
+                      </table>
+                      <table width="95%" height="24" border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#000000" bgcolor="#FFFFFF">
+                        <tr valign="center"> 
+                          <td width="72" height="20" class="font"> <div align="left">Job code:</div></td>
+                          <td width="122" height="20" colspan="-5" class="font"> 
+                            <div align="center"><%=@project.job_code%></div></td>
+                          <td width="113" class="font">CLIENT:</td>
+                          <td width="120" class="font"><%=@project.client.english_name%></td>
+                          <td width="130" class="font">PFA FEES %:</td>
+                          <td width="88" class="font"><%=@project.service_PFA%>% </td>
+                        </tr>
+                        <tr valign="center"> 
+                          <td width="72" height="20" class="font"> <div align="left">JOB 
+                              REF:</div></td>
+                          <td width="122" height="20" colspan="-5" class="font"> 
+                            <div align="center"><%=@project.referring.english_name%></div></td>
+                          <td width="113" class="font"></td>
+                          <td width="120" class="font"></td>
+                          <td width="130" class="font">PFA EXPENSES %:</td>
+                          <td width="88" class="font"><%=@project.expense_PFA%>% </td>
+                        </tr>
+                        <tr valign="center"> 
+                          <td width="72" height="20" class="font"> <div align="left">JOB 
+                              PTR:</div></td>
+                          <td width="122" height="20" colspan="-5" class="font"> 
+                            <div align="center"><%=@project.partner.english_name%></div></td>
+                          <td width="113" class="font">SERVICE LINE:</td>
+                          <td width="120" class="font"><%=@project.service_code.code%> </td>
+                          <td width="130" class="font">CONTRACTED FEES:</td>
+                          <td width="88" class="font"><%=@project.contracted_service_fee%> </td>
+                        </tr>
+                        <tr valign="center"> 
+                          <td width="72" height="20" class="font"> <div align="left">JOB 
+                              MGR:</div></td>
+                          <td width="122" height="20" colspan="-5" class="font"> 
+                            <div align="center"><%=@project.manager.english_name%></div></td>
+                          <td width="113" class="font">JOB GMU:</td>
+                          <td width="120" class="font"><%=@project.GMU.code%> </td>
+                          <td width="130" class="font">CONTRACTED EXPENSES:</td>
+                          <td width="88" class="font"><%=@project.contracted_expense%> </td>
+                        </tr>
+                      </table>
+                      <Br>
+					  <table width="95%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#000000">
+                        <tr> 
+                          <td colspan="8"><div align="center"> 
+                              <p class="font">-------CURRENT-------</p>
+                            </div></td>
+                          <td colspan="5"><div align="center"> 
+                              <p class="font">-----CUMULATIVE-----</p>
+                            </div></td>
+                        </tr>
+                        <tr class="font"> 
+                          <td width="20%" rowspan="2"> 
+                            <div align="center">PERS NAME ON DESC</div></td>
+                          <td rowspan="2"> 
+                            <div align="center"></div> 
+                            <div align="center"></div>
+							<div align="center">BILL RT</div></td>
+                          <td width="5%" rowspan="2">
+							<div align="center">HOURS</div></td>
+							                          <td width="10%" rowspan="2">
+							<div align="center">FEES</div></td>
+							                          <td width="5%" colspan="3">
+							<div align="center">EXPENSES</div></td>
+							                          <td width="5%" rowspan="2">TOTAL</td>
+							                          <td width="5%" rowspan="2">
+							<div align="center">HOURS</div></td>
+							                          <td width="10%" rowspan="2">
+							<div align="center">FEES</div></td>
+							                          <td rowspan="2">
+							<div align="center">EXPENSES </div> 
+                            <div align="center">TOTAL</div></td>
+                                                      <td rowspan="2">INITIAL</td>
+                          <td width="8%" rowspan="2">LASE ACTIVITE</td>
+                        </tr>
+                        <tr class="font">
+                          <td>Rmbs</td>
+                          <td>Meal</td>
+                          <td>Travel</td>
+                        </tr>
+                        <tr class="font"> 
+                          <td colspan="13">CHARGES</td>
+                        </tr>						
+                        <%
+                             @sum_hours = 0
+                             @sum_fees  = 0
+                             @sum_r = 0
+                             @sum_m = 0
+                             @sum_t = 0                      
+                        %>
+						<% for personalcharge in @personalcharges %>
+                        <tr class="font">
+                          <td><%= personalcharge.person.english_name%>--<%= personalcharge.person.employee_number %></td>
+                          <td><%= personalcharge.person.charge_rate %></td>
+                          <td><%= personalcharge.hours %></td>
+                          <td><%= personalcharge.service_fee %></td>
+                          <td><%= personalcharge.reimbursement %></td>
+                          <td><%= personalcharge.meal_allowance %></td>
+                          <td><%= personalcharge.travel_allowance %></td>
+                          <td><%= personalcharge.reimbursement + personalcharge.meal_allowance + personalcharge.travel_allowance %></td>
+                          <% 
+                             @sum_hours += personalcharge.hours
+                             @sum_fees  += personalcharge.service_fee
+                             @sum_r += personalcharge.reimbursement
+                             @sum_m += personalcharge.meal_allowance
+
+                             @sum_t += personalcharge.travel_allowance
+                             
+                             
+                             for p_sum in @p_sums 
+						  		@person_cumulative = p_sum if p_sum.person_id == personalcharge.person_id
+						  	 end 
+						  %>
+						  <td><%= @person_cumulative.hours  %></td>
+                          <td><%= @person_cumulative.service_fee %></td>
+                          <td><%= @person_cumulative.meal_allowance + @person_cumulative.travel_allowance + @person_cumulative.reimbursement %></td>
+                          <td>&nbsp;</td>
+                          <td><%= personalcharge.created_on.strftime("%y-%m-%d") %></td>
+						  
+                        </tr>
+						<% end %>
+                        <tr class="font">
+                          <td>TIME DIST TOTAL </td>
+                          <td>--</td>
+                          <td><%= @sum_hours %></td>
+                          <td><%= @sum_fees %></td>
+                          <td><%= @sum_r %></td>
+                          <td><%= @sum_m %></td>
+                          <td><%= @sum_t %></td>
+                          <td><%= @sum_r + @sum_m + @sum_t %></td>
+                          
+                          <td><%= @p_total.hours %></td>
+                          <td><%= @p_total.service_fee %></td>
+                          <td colspan="2"><%=  @p_total.meal_allowance +  @p_total.travel_allowance +  @p_total.reimbursement%></td>
+                          <td>--</td>
+                        </tr>
+
+                        <tr class="font"> 
+                          <td colspan="13">&nbsp;TIME DISTRUBUTION</td>
+                        </tr>
+                    <%%>
+						<tr class="font"> 
+                          <td colspan="13">&nbsp;EXPENSE </td>
+                        </tr>
+						<tr class="font">
+                          <td>courrier</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.courrier %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.courrier %></td>
+                          <td><%= @initialfee.courrier %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>postage</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.postage %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.postage %></td>
+                          <td><%= @initialfee.postage %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>payment_on_be_half</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.payment_on_be_half %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.payment_on_be_half %></td>
+                          <td><%= @initialfee.payment_on_be_half %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>report_binding</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.report_binding %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.report_binding %></td>
+                          <td><%= @initialfee.report_binding %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>stationery</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.stationery %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.stationery %></td>
+                          <td><%= @initialfee.stationery %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>tickets</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.tickets %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.tickets %></td>
+                          <td><%= @initialfee.tickets %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>commission</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.commission %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.commission %></td>
+                          <td><%= @initialfee.commission %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+                          <td>outsourcing</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @expenses.outsourcing %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= @e_total.outsourcing %></td>
+                          <td><%= @initialfee.outsourcing %></td>
+                          <td>--</td>
+					    </tr>	
+																																						
+						<tr class="font">
+                          <td>EXPENSE DIST TOTAL </td>
+                          <td>--</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="3"><%= @sum_all_expenses %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td colspan="2"><%= @sum_all_total %></td>
+                          <td>--</td>
+					    </tr>
+						<tr class="font">
+						  <td><strong>TOTAL CHARGES</strong> </td>
+						  <td>&nbsp;</td>
+						  <td><%= @sum_hours %></td>
+						  <td><%= @sum_fees %></td>
+						  <td colspan="3"><%= @sum_all_expenses + @sum_r + @sum_m + @sum_t %></td>
+						  <td><%= @sum_r + @sum_m + @sum_t %></td>
+						  <td><%= @p_total.hours %></td>
+						  <td><%= @p_total.service_fee %></td>
+						  <td colspan="2"><%=  @p_total.meal_allowance +  @p_total.travel_allowance +  @p_total.reimbursement + @p_total.service_fee %></td>
+						  <td>&nbsp;</td>
+					    </tr>
+                        <tr class="font"> 
+                          <td colspan="13">REDUCTIONS</td>
+                        </tr>
+                        <tr class="font"> 
+                          <td colspan="13">&nbsp;BILLINGS</td>
+                        </tr>
+						<% 	@sum_b_service = 0
+							@sum_b_expense = 0 %>
+						<% for billing in @billings %>
+					    <tr>
+						  <td>Billing number</td>
+                          <td><%= billing.number||"--" %></td>
+                          <td>&nbsp;</td>
+                          <td><%= billing.service_billing||0 %></td>
+                          <td colspan="3"><%= billing.expense_billing||0 %></td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><%= billing.service_billing||0 %></td>
+                          <td colspan="2"><%= billing.expense_billing||0 %></td>
+                          <td><%= billing.created_on.strftime("%y-%m-%d") %></td>
+					    </tr>
+						<%
+						@sum_b_service += billing.service_billing
+						@sum_b_expense += billing.expense_billing
+						%>
+						<% end %>
+					    <tr>
+					      <td>BILLINGS TOTAL </td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td><%= @sum_b_service%></td>
+					      <td colspan="3"><%=@sum_b_expense%></td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td><%= @b_total.service_billing %></td>
+					      <td colspan="2"><%= @b_total.expense_billing %></td>
+					      <td>&nbsp;</td>
+				        </tr>
+					    <tr>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="3">&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="2">&nbsp;</td>
+					      <td>&nbsp;</td>
+				        </tr>
+					    <tr>
+					      <td>PFA TOTAL </td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td><%= @sum_fees * @project.service_PFA / 100 %></td>
+					      <td><%= @sum_r * @project.expense_PFA / 100 %></td>
+                          <td><%= @sum_m * @project.expense_PFA / 100 %></td>
+                          <td><%= @sum_t * @project.expense_PFA / 100 %></td>
+                          <td><%= (@sum_r + @sum_m + @sum_t) * @project.expense_PFA / 100 %></td>
+					      <td>&nbsp;</td>
+                          <td><%= @p_total.service_fee * @project.service_PFA / 100  %></td>
+                          <td colspan="2"><%=  (@p_total.meal_allowance +  @p_total.travel_allowance +  @p_total.reimbursement) * @project.expense_PFA / 100 %></td>
+                          <td>&nbsp;</td>
+				        </tr>
+					    <tr>
+					      <td colspan="13">UFA FEE </td>
+				        </tr>
+					    <tr>
+					      <td>UFA</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="3">&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="2">&nbsp;</td>
+					      <td>&nbsp;</td>
+				        </tr>
+					    <tr>
+					      <td>UFA TOTAL </td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="3">&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="2">&nbsp;</td>
+					      <td>&nbsp;</td>
+				        </tr>
+					    <tr>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="3">&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td>&nbsp;</td>
+					      <td colspan="2">&nbsp;</td>
+					      <td>&nbsp;</td>
+				        </tr>
+						
+					</table></tr>
+                </table>
+			 </td></tr></table>
+
+</td></tr>
+</table>

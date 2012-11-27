@@ -1,0 +1,31 @@
+<h1>Listing dicts</h1>
+<table>
+  <tr>
+  <% for column in Dict.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for dict in @dicts %>
+  <tr>
+  <% for column in Dict.content_columns %>
+    <td><%=h dict.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => dict %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => dict %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => dict }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @dict_pages.current.previous } if @dict_pages.current.previous %>
+<%= link_to 'Next page', { :page => @dict_pages.current.next } if @dict_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New dict', :action => 'new' %>
+<hr>
+ <form action="/dicts/list" method="POST">
+ category:<%= text_field("dict", "category") %>
+ <input type="submit" value="Search" /> 
+ </form>

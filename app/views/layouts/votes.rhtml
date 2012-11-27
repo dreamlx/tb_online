@@ -1,0 +1,13 @@
+<html>
+<head>
+  <title>Votes: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'tb' %>
+</head>
+<body>
+<h1>ThinkBridge</h1>
+<p style="color: green"><%= flash[:notice] %></p>
+
+<%= yield  %>
+
+</body>
+</html>

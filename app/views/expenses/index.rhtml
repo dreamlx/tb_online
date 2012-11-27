@@ -1,0 +1,110 @@
+<h1><%=_ "Listing %s", Expense.human_name %></h1>
+
+<% form_for(:expense, :url => expenses_path, :html => { :method => :get }) do |f| %>
+  <table>
+    <tr>
+      <td>
+        <p><label for="Expense_project_id">Project(<%=h Project.find(:all,:order=>"job_code",:include=>:status,:conditions=>"dicts.title  like 'Active' ").size %>):</label>
+          <%= select("expense", "project_id",
+            Project.find(:all,:order=>"job_code",:include=>:status,:conditions=>"dicts.title  like 'Active' ").collect {|p| [ p.job_code, p.id ] }, { :include_blank => true }) %>
+        </p>
+      </td>
+      <td>
+        <p><label for="Expense_period_id">Period from:</label>
+          <%= select("period_from", "period_id",
+            Period.find(:all,:order=>"number desc").collect {|p| [ p.number, p.id ] }, { :include_blank => true }) %>
+        </p>
+      </td>
+      <td>
+        <p><label for="Expense_period_id">Period to:</label>
+          <%= select("period_to", "period_id",
+            Period.find(:all,:order=>"number desc").collect {|p| [ p.number, p.id ] }, { :include_blank => true }) %>
+        </p>
+      </td>
+
+      <td>
+        <p><b>Col filter:</b>
+          <select name="col_list">
+            <option value="">ALL</option>
+            <% @col_lists.each do |col_list| %>
+              <option value="<%= col_list %>"
+                      <%= ' selected' if col_list == @col_list %>>
+                      <%=col_list %>
+              </option>
+            <% end %>
+          </select>
+        </p>
+      </td>
+      <td>memo:<%=  text_field("expense", "memo", "size" => 20)%></td>
+      <td>
+        <input type="submit" value="Search" />
+        
+      </td>
+    </tr>
+  </table>
+<% end %>
+<%#= link_to 'PRINT',:controller => 'reports', :action => 'expense_export',:period=>@period_id , :project=>@project_id%>
+<hr/>
+<table>
+  <tr>
+    <th><%#= Expense.human_attribute_name("created_on") %></th>
+    <th><%#= Expense.human_attribute_name("updated_on") %></th>
+    <th><%= h "job_code" %></th>
+    <th><%= Expense.human_attribute_name("commission") %></th>
+    <th><%= Expense.human_attribute_name("outsourcing") %></th>
+    <th><%= Expense.human_attribute_name("tickets") %></th>
+    <th><%= Expense.human_attribute_name("courrier") %></th>
+    <th><%= Expense.human_attribute_name("postage") %></th>
+    <th><%= Expense.human_attribute_name("stationery") %></th>
+    <th><%= Expense.human_attribute_name("report_binding") %></th>
+    <th><%= Expense.human_attribute_name("cash_advance") %></th>
+    <th><%= Expense.human_attribute_name("payment_on_be_half") %></th>
+    <th><%= Expense.human_attribute_name("memo") %></th>
+    <th colspan="3"></th>
+  </tr>
+
+  <% for expense in @expenses %>
+    <tr>
+      <td><%#=h Time.at(expense.created_on).strftime("%y-%m-%d %H:%M") %></td>
+      <td><%#=h Time.at(expense.updated_on).strftime("%y-%m-%d %H:%M") %></td>
+      <td><%=h expense.project.job_code unless expense.project.nil?  %></td>
+      <td><%=h expense.commission %></td>
+      <td><%=h expense.outsourcing %></td>
+      <td><%=h expense.tickets %></td>
+      <td><%=h expense.courrier %></td>
+      <td><%=h expense.postage %></td>
+      <td><%=h expense.stationery %></td>
+      <td><%=h expense.report_binding %></td>
+      <td><%=h expense.cash_advance %></td>
+      <td><%=h expense.payment_on_be_half %></td>
+      <td><%=h expense.memo %></td>
+      <td><%= link_to _('View'), expense_path(expense) %></td>
+      <td><%= link_to _('Edit'), edit_expense_path(expense) %></td>
+      <td><%= link_to _('Destroy'), expense_path(expense), :confirm => _('Are you sure?'), :method => :delete %></td>
+    </tr>
+  <% end %>
+   <tr>
+      <td>sum:<%#=h Time.at(expense.created_on).strftime("%y-%m-%d %H:%M") %></td>
+      <td colspan="15"><hr></td>
+    </tr>
+     <tr>
+       <td></td>
+      <td><%#=h Time.at(expense.created_on).strftime("%y-%m-%d %H:%M") %></td>
+      <td><%#=h Time.at(expense.updated_on).strftime("%y-%m-%d %H:%M") %></td>
+      <td><%=h @sum_expense.commission %></td>
+      <td><%=h @sum_expense.outsourcing %></td>
+      <td><%=h @sum_expense.tickets %></td>
+      <td><%=h @sum_expense.courrier %></td>
+      <td><%=h @sum_expense.postage %></td>
+      <td><%=h @sum_expense.stationery %></td>
+      <td><%=h @sum_expense.report_binding %></td>
+      <td><%=h @sum_expense.cash_advance %></td>
+      <td><%=h @sum_expense.payment_on_be_half %></td>
+      <td><%#=h expense.memo %></td>
+      <td colspan="3"></td>
+    </tr>
+</table>
+<%= will_paginate @expenses %>
+<br />
+<%= link_to 'New expense', :action => 'new', :prj_id=>params[:prj_id]||@expense.project_id %>
+<%#= link_to _("New %s", Expense.human_name), new_expense_path %>

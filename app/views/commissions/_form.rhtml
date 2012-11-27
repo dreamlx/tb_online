@@ -1,0 +1,19 @@
+<%= error_messages_for 'commission' %>
+
+<!--[form:commission]-->
+<p><label for="commission_created_on">Created on</label><br/>
+<%= datetime_select 'commission', 'created_on'  %></p>
+
+<p><label for="commission_updated_on">Updated on</label><br/>
+<%= datetime_select 'commission', 'updated_on'  %></p>
+
+<p><label for="commission_number">Number</label><br/>
+<%= text_field 'commission', 'number'  %></p>
+
+<p><label for="commission_date">Date</label><br/>
+<%= date_select 'commission', 'date'  %></p>
+
+<p><label for="commission_amount">Amount</label><br/>
+<%= text_field 'commission', 'amount'  %></p>
+<!--[eoform:commission]-->
+

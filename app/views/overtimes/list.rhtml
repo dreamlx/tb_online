@@ -1,0 +1,80 @@
+<h1>Listing overtimes</h1>
+<%= link_to 'New overtime', :action => 'new' %>
+<table border=1>
+<tr>
+<th>employee number</th>
+<th>english_name</th>
+<th>date</th>
+<th>hours type</th>
+<th>real hours</th>
+<th>ot hours</th>
+<th colspan=3></th>
+</tr>
+  
+<% for overtime in @overtimes %>
+  <tr>
+
+<td><%=overtime.person.employee_number%></td>
+<td><%=overtime.person.english_name%></td>
+<td><%=overtime.ot_date%></td>
+<td><%=overtime.ot_type.title%></td>
+<td><%=overtime.real_hours%></td>
+<td><%=overtime.ot_hours%></td>
+
+    <td><%= link_to 'Show', :action => 'show', :id => overtime %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => overtime %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => overtime }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+<tr><td colspan=9><hr></td></tr>
+<tr>
+<td>total:</td>
+<td></td>
+<td></td>
+<td></td>
+<td><%=@sum_ot.real_hours%></td>
+<td><%=@sum_ot.ot_hours%></td>
+<td colspan=3></td>
+</tr>
+</table>
+
+<%= link_to 'Previous page', { :page => @overtime_pages.current.previous } if @overtime_pages.current.previous %>
+<%= link_to 'Next page', { :page => @overtime_pages.current.next } if @overtime_pages.current.next %> 
+
+<br />
+<form action="/overtimes/list" method="POST">
+  <label>Person:</label>
+   <select name="overtime[person_id]">
+       <option value="0" >
+         all
+       </option>   
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" >
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+<br><br>
+  <label>OT type:</label>
+   <select name="overtime[ot_type_id]">
+       <option value="0" >
+         all+
+       </option>
+       <option value="-1" >
+         all-
+       </option>  
+    <% @ot_types.each do |ot_type| %>
+            
+       <option value="<%= ot_type.id %>" >
+         <%=ot_type.title %>
+       </option>
+    <% end %>
+   </select>
+<p><label for="period_starting_date">Starting date</label><br/>
+<%= date_select 'period', 'starting_date'  %></p>
+
+<p><label for="period_ending_date">Ending date</label><br/>
+<%= date_select 'period', 'ending_date'  %></p> 
+ <input type="submit" value="Search" /> 
+</form>
+

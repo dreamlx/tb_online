@@ -1,0 +1,206 @@
+<form action="/personalcharges/search" method="POST">
+ <%=@tempsql+"||"+@period_condition%>
+ <%#= link_to 'PRINT',:controller =>'reports', 
+   #                     :action=>'personalcharge_export', 
+   #                     :project=>@personalcharge.project_id,
+   #                     :period=>@personalcharge.period_id,
+   #                     :person=>@personalcharge.person_id%>
+<table>
+<tr>
+<td>
+   <p><b>Person:</b><br>
+   <select name="personalcharge[person_id]">
+    <option value="">ALL</option>   
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @personalcharge.person_id %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+  </p>  
+</td>
+<td>
+  <p><b>Project:</b><br>
+   <select name="personalcharge[project_id]">
+   <option value="">ALL</option>
+   <option value="-1">Admin code</option>
+   <option value="-2">Job code</option>
+    <% @projects.each do |project| %>
+       <option value="<%= project.id %>" 
+         <%= ' selected' if project.id == @personalcharge.project_id %>>
+         <%=project.job_code %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+</td>
+<td> 
+  <p><b> Period from:</b><br>
+   <select name="period_from">
+   <option value="">ALL</option>
+    <% @periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%= ' selected' if period.id == @personalcharge.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+</td>
+<td> 
+  <p><b>to:</b><br>
+   <select name="period_to">
+   <option value="">ALL</option>
+    <% @periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%= ' selected' if period.id == @personalcharge.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+</td>
+<td>
+<br>
+ <input type="submit" value="Search" />
+</td>
+</tr> 
+</table>
+ 
+ </form>
+
+ <hr>
+ <font color=red>Record Count:</font><%=@p_count%>
+
+ <%= link_to 'Print', :controller => 'reports', :action => 'export', :sql => @tempsql, :total => @p_total %>
+
+ <table>
+  <tr>
+    <th>Job code</th>
+    <th>Employee name</th> 
+    <th>Period</th>  
+<!--  <% for column in Personalcharge.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  -->
+    <th>Hours</th>
+    <th>Service fee</th>
+    <th>PFA%</th>
+    <th>PFA of service fee</th>
+    <th>Reimbursement</th>
+    <th>Meal allowance</th>
+    <th>Travel allowance</th>
+    
+    <th>Expense sum</th>
+    <th colspan=3></th>
+  </tr>
+<% odd_or_even = 0 %>  
+<% for personalcharge in @personalcharges %>
+
+<% if personalcharge.project.job_code =~/^\d+/
+     odd_or_even = 1
+     tempfee = 0
+     #@pfa_fee[1] +=tempfee
+     @p_t1.hours            += personalcharge.hours
+     @p_t1.service_fee      += personalcharge.service_fee
+     @p_t1.reimbursement    += personalcharge.reimbursement
+     @p_t1.meal_allowance   += personalcharge.meal_allowance
+     @p_t1.travel_allowance += personalcharge.travel_allowance
+     
+   else 
+     odd_or_even = 0
+     tempfee =personalcharge.service_fee/100 * personalcharge.project.service_PFA
+     @pfa_fee[0] +=tempfee
+     @p_t0.hours            += personalcharge.hours
+     @p_t0.service_fee      += personalcharge.service_fee
+     @p_t0.reimbursement    += personalcharge.reimbursement
+     @p_t0.meal_allowance   += personalcharge.meal_allowance
+     @p_t0.travel_allowance += personalcharge.travel_allowance     
+   end %>
+  <tr class="ListLine<%= odd_or_even %>">
+    <td><%=personalcharge.project.job_code%></td>
+    <td><%=personalcharge.person.english_name %></td>
+    <td><%=personalcharge.period.number%></td>
+  <!--
+  <% for column in Personalcharge.content_columns %>
+    <td><%=h personalcharge.send(column.name) %></td>
+  <% end %>
+  -->
+    <td><%=personalcharge.hours %></td>
+    <td><%=personalcharge.service_fee %></td>
+    <td><%=personalcharge.project.service_PFA %></td>
+    <td><%= tempfee %>    </td>
+    <td><%=personalcharge.reimbursement %></td>
+    <td><%=personalcharge.meal_allowance %></td>
+    <td><%=personalcharge.travel_allowance %></td>
+    <td><%= personalcharge.reimbursement + personalcharge.meal_allowance + personalcharge.travel_allowance%></td>
+    <td><%= link_to 'Show', :action => 'show', :id => personalcharge %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => personalcharge if personalcharge.project.status.title == 'Active'%></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', 
+                               :id => personalcharge, 
+                               :prj_id =>personalcharge.project_id, 
+                               :person_id => personalcharge.person_id  }, 
+                               :confirm => 'Are you sure?', :post => true if personalcharge.project.status.title == 'Active'%></td>
+    
+  
+  </tr>
+<% end %>
+
+<tr><td COLSPAN=11><hr></td></tr>
+
+  <tr>
+    <th>Job code</th>
+    <th>Employee name</th> 
+    <th>Period</th>  
+    <th>Hours</th>
+    <th>Service fee</th>
+    <th>PFA%</th>
+    <th>PFA of service fee</th>
+    <th>Reimbursement</th>
+    <th>Meal allowance</th>
+    <th>Travel allowance</th>
+    
+    <th>Expense sum</th>
+  </tr>
+  
+<% odd_or_even = 1 %>
+<tr class="ListLine<%= odd_or_even %>">
+<td COLSPAN=3>subtotal</td>
+<td><%= @p_t1.hours %></td>
+<td><%= @p_t1.service_fee %></td>
+<td />
+<td><%=@pfa_fee[1]%></td>
+<td><%= @p_t1.reimbursement %></td>
+<td><%= @p_t1.meal_allowance %></td>
+<td><%= @p_t1.travel_allowance %></td>
+<td><%= @p_t1.reimbursement + @p_t1.meal_allowance + @p_t1.travel_allowance  if not @p_count ==0 %></td>
+</tr>
+
+<% odd_or_even = 0 %>
+<tr class="ListLine<%= odd_or_even %>">
+<td COLSPAN=3>subtotal</td>
+<td><%= @p_t0.hours %></td>
+<td><%= @p_t0.service_fee %></td>
+<td />
+<td><%=@pfa_fee[0]%></td>
+<td><%= @p_t0.reimbursement %></td>
+<td><%= @p_t0.meal_allowance %></td>
+<td><%= @p_t0.travel_allowance %></td>
+<td><%= @p_t0.reimbursement + @p_t0.meal_allowance + @p_t0.travel_allowance  if not @p_count ==0 %></td>
+</tr>
+
+<tr bgcolor=yellow>
+<td COLSPAN=3>All total</td>
+<td><%= @p_total.hours %></td>
+<td><%= @p_total.service_fee %></td>
+<td />
+<td><%=@pfa_fee[0]%></td>
+<td><%= @p_total.reimbursement %></td>
+<td><%= @p_total.meal_allowance %></td>
+<td><%= @p_total.travel_allowance %></td>
+<td><%= @p_total.reimbursement + @p_total.meal_allowance + @p_total.travel_allowance  if not @p_count ==0 %></td>
+</tr>
+</table>
+
+<%= link_to 'Back',      :controller => 'people',   :action =>'list' %>

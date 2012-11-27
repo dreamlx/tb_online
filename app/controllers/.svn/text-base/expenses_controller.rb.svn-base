@@ -1,0 +1,112 @@
+class ExpensesController < ApplicationController
+  def index
+    #list
+    #render :action => 'list'
+    id = params[:prj_id]
+    item_found =Expense.find(:first,:conditions=>['project_id=?',id])
+    if item_found.nil?
+      redirect_to :action => 'new',:id=> id
+    else
+      redirect_to :action => 'list',:id => id
+    end 
+  end
+
+  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
+  verify :method => :post, :only => [ :destroy, :create, :update ],
+         :redirect_to => { :action => :list }
+
+  def list
+    @current_period = get_now_period
+    @expense_pages, @expenses = paginate :expenses, :conditions =>["project_id=? and period_id = ?",params[:id], @current_period.id ]
+  end
+
+  def show
+    @expense = Expense.find(params[:id])
+  end
+
+  def new
+    init_set  
+    @expense = Expense.new
+    @expense.project_id = params[:id]
+
+  end
+
+  def create
+    @expense = Expense.new(params[:expense])
+       
+    if @expense.save
+      flash[:notice] = 'Expense was successfully created.'
+      redirect_to :action => 'list', :id => @expense.project_id
+    else
+      render :action => 'new'
+    end
+  end
+
+  def edit
+    init_set
+    @expense = Expense.find(params[:id])
+        
+  end
+
+  def update
+    @expense = Expense.find(params[:id])
+    if @expense.update_attributes(params[:expense])
+      flash[:notice] = 'Expense was successfully updated.'
+      redirect_to :action => 'show', :id => @expense
+    else
+      render :action => 'edit'
+    end
+  end
+
+  def destroy
+    Expense.find(params[:id]).destroy
+    if params[:prj_id].nil?
+      redirect_to :action => 'list'
+    else
+      redirect_to :action => 'list', :id => params[:prj_id]
+    end
+  end
+
+  def search
+    init_set
+    @expense    = Expense.new(params[:expense]) 
+    @period     = Period.new(params[:period])  
+    @col_lists  = %w[commission outsourcing tickets courrier postage stationery report_binding cash_advance payment_on_be_half ]
+    @col_list   = params[:col_list]
+    
+    sql_str = " select D.job_code, C.number, A.* from "+
+              " expenses as A, periods as C, projects as D " +
+              " where A.period_id = C.id and A.project_id = D.id and "
+
+    sql_condition = " 1 "
+  
+    sql_order = " order by D.job_code "
+
+    if not @expense.project_id.nil?
+      sql_condition += " and project_id =#{ @expense.project_id} "
+    end
+    if not @expense.period_id.nil?       
+      sql_condition += " and period_id = #{@expense.period_id} "
+    end    
+    
+    if @col_list != "" and @col_list != nil
+      sql_condition += " and not #{@col_list} = 0 " 
+    end
+      
+    @expenses = Expense.find_by_sql( sql_str + sql_condition + sql_order )
+    @sql = sql_str + sql_condition + sql_order
+    
+    @e_total =Expense.new
+    @e_total.commission = Expense.sum("commission", :conditions => sql_condition)
+    @e_total.outsourcing = Expense.sum("outsourcing", :conditions => sql_condition)
+    @e_total.tickets = Expense.sum("tickets", :conditions => sql_condition)
+    @e_total.courrier = Expense.sum("courrier", :conditions => sql_condition)
+    @e_total.postage = Expense.sum("postage", :conditions => sql_condition)
+    @e_total.stationery = Expense.sum("stationery", :conditions => sql_condition)
+    @e_total.report_binding = Expense.sum("report_binding", :conditions => sql_condition)
+    @e_total.cash_advance = Expense.sum("cash_advance", :conditions => sql_condition)
+    @e_total.payment_on_be_half = Expense.sum("payment_on_be_half", :conditions => sql_condition)
+    @e_count = Expense.count(:conditions =>sql_condition)
+  end
+    
+end

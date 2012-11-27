@@ -1,0 +1,19 @@
+<%= error_messages_for 'outsourcing' %>
+
+<!--[form:outsourcing]-->
+<p><label for="outsourcing_created_on">Created on</label><br/>
+<%= datetime_select 'outsourcing', 'created_on'  %></p>
+
+<p><label for="outsourcing_updated_on">Updated on</label><br/>
+<%= datetime_select 'outsourcing', 'updated_on'  %></p>
+
+<p><label for="outsourcing_number">Number</label><br/>
+<%= text_field 'outsourcing', 'number'  %></p>
+
+<p><label for="outsourcing_date">Date</label><br/>
+<%= date_select 'outsourcing', 'date'  %></p>
+
+<p><label for="outsourcing_amount">Amount</label><br/>
+<%= text_field 'outsourcing', 'amount'  %></p>
+<!--[eoform:outsourcing]-->
+

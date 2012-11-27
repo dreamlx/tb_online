@@ -1,0 +1,9 @@
+<h1>Editing industry</h1>
+
+<%= start_form_tag :action => 'update', :id => @industry %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+<%= link_to 'Show', :action => 'show', :id => @industry %> |
+<%= link_to 'Back', :action => 'list' %>

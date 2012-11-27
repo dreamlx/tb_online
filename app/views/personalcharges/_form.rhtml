@@ -1,0 +1,25 @@
+<%= error_messages_for 'personalcharge' %>
+
+<!--[form:personalcharge]-->
+<p><label for="personalcharge_created_on">Created on</label><br/>
+<%= datetime_select 'personalcharge', 'created_on'  %></p>
+
+<p><label for="personalcharge_updated_on">Updated on</label><br/>
+<%= datetime_select 'personalcharge', 'updated_on'  %></p>
+
+<p><label for="personalcharge_hours">Hours</label><br/>
+<%= text_field 'personalcharge', 'hours'  %></p>
+
+<p><label for="personalcharge_service_fee">Service fee</label><br/>
+<%= text_field 'personalcharge', 'service_fee'  %></p>
+
+<p><label for="personalcharge_reimbursement">Reimbursement</label><br/>
+<%= text_field 'personalcharge', 'reimbursement'  %></p>
+
+<p><label for="personalcharge_meal_allowance">Meal allowance</label><br/>
+<%= text_field 'personalcharge', 'meal_allowance'  %></p>
+
+<p><label for="personalcharge_travel_allowance">Travel allowance</label><br/>
+<%= text_field 'personalcharge', 'travel_allowance'  %></p>
+<!--[eoform:personalcharge]-->
+

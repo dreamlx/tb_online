@@ -1,0 +1,43 @@
+<%= error_messages_for 'person' %>
+
+<!--[form:person]-->
+<p><label for="person_created_on">Created on</label><br/>
+<%= datetime_select 'person', 'created_on'  %></p>
+
+<p><label for="person_updated_on">Updated on</label><br/>
+<%= datetime_select 'person', 'updated_on'  %></p>
+
+<p><label for="person_chinese_name">Chinese name</label><br/>
+<%= text_field 'person', 'chinese_name'  %></p>
+
+<p><label for="person_english_name">English name</label><br/>
+<%= text_field 'person', 'english_name'  %></p>
+
+<p><label for="person_employee_number">Employee number</label><br/>
+<%= text_field 'person', 'employee_number'  %></p>
+
+<p><label for="person_grade">Grade</label><br/>
+<%= text_field 'person', 'grade'  %></p>
+
+<p><label for="person_charge_rate">Charge rate</label><br/>
+<%= text_field 'person', 'charge_rate'  %></p>
+
+<p><label for="person_employeement_date">Employeement date</label><br/>
+<%= date_select 'person', 'employeement_date'  %></p>
+
+<p><label for="person_address">Address</label><br/>
+<%= text_field 'person', 'address'  %></p>
+
+<p><label for="person_postalcode">Postalcode</label><br/>
+<%= text_field 'person', 'postalcode'  %></p>
+
+<p><label for="person_mobile">Mobile</label><br/>
+<%= text_field 'person', 'mobile'  %></p>
+
+<p><label for="person_tel">Tel</label><br/>
+<%= text_field 'person', 'tel'  %></p>
+
+<p><label for="person_extension">Extension</label><br/>
+<%= text_field 'person', 'extension'  %></p>
+<!--[eoform:person]-->
+

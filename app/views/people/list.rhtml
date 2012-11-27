@@ -1,0 +1,66 @@
+      <% @admin = get_role(session[:user_id],'admin') %>
+      <% partner = get_role(session[:user_id],'partner') %>
+      <% manager = get_role(session[:user_id],'manager') %>
+	  
+<div class="catalogentry">
+<h1>Listing people</h1>
+<h4>search&list</h>:
+<%= link_to 'Personalcharges',      :controller => 'personalcharges',   :action =>'search' %>
+<% form_for(:person, :url => "/people/list", :html => { :method => :get }) do |f| %>
+  <table>
+    <tr>
+      <td>English name:
+	  <%#= select("person_id","",Person.find(:all,:order=>"english_name",:include=>:status,:conditions=>"title = 'Employed'").collect {|p| [ p.english_name, p.id ] }, { :include_blank => true }) %>
+      <%= collection_select(:person,:id,Person.find(:all,:order=>"english_name",:include=>:status,:conditions=>"title = 'Employed'"),:id,:english_name,:include_blank => true)%>
+	  </td>
+      <td>Employee number:<%= text_field_with_auto_complete :person,:employee_number,{:size=>20},
+          {:skip_style=>true}  %>
+      </td>
+
+      <td><%= submit_tag _("查询") %></td>
+    </tr>
+  </table>
+<% end %>
+<hr>
+<table>
+<tr>
+<td>Chinese name</td>
+<td>English name</td>
+<td>Employee number</td>
+<td>Charge rate</td>
+<!--show,edit,destroy-->
+<td></td>
+<td></td>
+<td></td>
+</tr>
+  
+<%
+odd_or_even = 0 
+for person in @people
+odd_or_even = 1 - odd_or_even
+ %>
+  <tr class="ListLine<%= odd_or_even %>">
+    <td><%=person.chinese_name%></td>
+    <td><%=person.english_name%></td>
+    <td><b><%=person.employee_number%></b></td>
+    <td><%=person.charge_rate%></td>
+     <% if !@admin %>
+     <td colspan=3>###</td>
+    <% else %>
+    <td><%= link_to 'Show', :action => 'show', :id => person %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => person %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => person }, :confirm => 'Are you sure?', :post => true %>
+    </td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'First page', { :page => @person_pages.first_page } %> 
+<%= link_to 'Previous page', { :page => @person_pages.current.previous } if @person_pages.current.previous %>
+<%= link_to 'Next page', { :page => @person_pages.current.next } if @person_pages.current.next %> 
+<%= link_to 'Last page', { :page => @person_pages.last_page } %> 
+<br />
+
+<%= link_to 'New person', :action => 'new' %>
+</div>

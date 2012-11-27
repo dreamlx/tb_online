@@ -1,0 +1,60 @@
+<%= link_to 'PersonalCharges',      :controller => 'personalcharges',   :person_id => @person %>
+<hr>
+  <p><b><label for="person_chinese_name">Chinese name:</label></b>
+  <%= @person.chinese_name  %></p>
+
+  <p><b><label for="person_english_name">English name:</label></b>
+  <%= @person.english_name  %></p>
+
+  <p><b><label for="person_employee_number">Employee number:</label></b>
+  <%= @person.employee_number  %></p>
+
+  <p><b>Gender:</b>
+  <%=@person.gender.title%></p> 
+
+  <p><b>Department:</b>
+  <%=@person.department.title%></p>
+ 
+  
+  <p><b><label for="person_grade">Grade:</label></b>
+  <%= @person.grade  %></p>
+
+  <p><b><label for="person_charge_rate">Charge rate:</label></b>
+  <%= @person.charge_rate  %></p>
+
+  <p><b><label for="person_employeement_date">Employeement date:</label></b>
+  <%= @person.employeement_date  %></p>
+
+  <p><b><label for="person_address">Address:</label></b>
+  <%= @person.address  %></p>
+
+  <p><b><label for="person_postalcode">Post code:</label></b>
+  <%= @person.postalcode  %></p>
+
+  <p><b><label for="person_mobile">Mobile:</label></b>
+  <%= @person.mobile  %></p>
+
+  <p><b><label for="person_tel">Home number:</label></b>
+  <%= @person.tel  %></p>
+
+  <p><b><label for="person_extension">Extension:</label></b>
+  <%= @person.extension  %></p>
+
+  <p><b>GMU:</b>
+  <%=@person.GMU.title%></p>
+
+  <p><b>Status:</b>
+  <%=@person.status.title%></p>
+
+  <p><label for="person_created_on">Created on:</label>
+  <%= @person.created_on  %></p>
+
+  <p><label for="person_updated_on">Updated on:</label>
+  <%= @person.updated_on  %></p>
+
+
+
+  <br>
+    
+<%= link_to 'Edit', :action => 'edit', :id => @person %> |
+<%= link_to 'Back', :action => 'list' %>

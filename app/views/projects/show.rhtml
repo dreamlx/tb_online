@@ -1,0 +1,91 @@
+      <% @admin = get_role(session[:user_id],'admin') %>
+      <% partner = get_role(session[:user_id],'partner') %>
+      <% manager = get_role(session[:user_id],'manager') %>
+	  <% if @admin %>
+<% if @project.status.title == 'Active' %>
+<%= link_to 'Initialfee|',           :controller => 'initialfees',       :prj_id => @project %>
+<%= link_to 'InitialDeduction|',     :controller => 'deductions',        :prj_id => @project %>
+<%#= link_to 'Outsourcing',          :controller => 'outsourcings',      :prj_id => @project %>
+<%#= link_to 'Commission',           :controller => 'commissions',       :prj_id => @project %>
+<%= link_to 'Billing|',              :controller => 'billings',          :prj_id => @project %>
+<%= link_to 'Expense|',              :controller => 'expenses',          :prj_id => @project %>
+<%= link_to 'PersonalCharges',      :controller => 'personalcharges',   :prj_id => @project %>
+<% end %>
+<% end %>
+<hr/>
+<fieldset>
+  <p>
+    <label for="Project_contract_number"><%= Project.human_attribute_name("contract_number") %></label>
+    <%=h @project.contract_number %>
+  </p>
+
+  <p>
+    <label for="Project_job_code"><%= Project.human_attribute_name("job_code") %></label>
+    <%=h @project.job_code %>
+  </p>
+
+  <p>
+    <label for="Project_description"><%= Project.human_attribute_name("description") %></label>
+    <%=h @project.description %>
+  </p>
+
+  <p>
+    <label for="Project_starting_date"><%= Project.human_attribute_name("starting_date") %></label>
+    <%=h @project.starting_date %>
+  </p>
+
+  <p>
+    <label for="Project_ending_date"><%= Project.human_attribute_name("ending_date") %></label>
+    <%=h @project.ending_date %>
+  </p>
+
+  <p>
+    <label for="Project_estimated_annual_fee"><%= Project.human_attribute_name("estimated_annual_fee") %></label>
+    <%=h @project.estimated_annual_fee %>
+  </p>
+
+  <p>
+    <label for="Project_contracted_service_fee"><%= Project.human_attribute_name("contracted_service_fee") %></label>
+    <%=h @project.contracted_service_fee %>
+  </p>
+
+  <p>
+    <label for="Project_estimated_commision"><%= Project.human_attribute_name("estimated_commision") %></label>
+    <%=h @project.estimated_commision %>
+  </p>
+
+  <p>
+    <label for="Project_estimated_outsorcing"><%= Project.human_attribute_name("estimated_outsorcing") %></label>
+    <%=h @project.estimated_outsorcing %>
+  </p>
+
+  <p>
+    <label for="Project_budgeted_service_fee"><%= Project.human_attribute_name("budgeted_service_fee") %></label>
+    <%=h @project.budgeted_service_fee %>
+  </p>
+
+  <p>
+    <label for="Project_service_PFA"><%= Project.human_attribute_name("service_PFA") %></label>
+    <%=h @project.service_PFA %>
+  </p>
+
+  <p>
+    <label for="Project_expense_PFA"><%= Project.human_attribute_name("expense_PFA") %></label>
+    <%=h @project.expense_PFA %>
+  </p>
+
+  <p>
+    <label for="Project_contracted_expense"><%= Project.human_attribute_name("contracted_expense") %></label>
+    <%=h @project.contracted_expense %>
+  </p>
+
+  <p>
+    <label for="Project_budgeted_expense"><%= Project.human_attribute_name("budgeted_expense") %></label>
+    <%=h @project.budgeted_expense %>
+  </p>
+
+</fieldset>
+<%if @project.status.code == '1'%>
+<%= link_to _('Edit'), edit_project_path(@project) if @admin%> |
+<%end%>
+<%= link_to _('Back'), projects_path %>

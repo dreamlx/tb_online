@@ -1,0 +1,25 @@
+
+   
+
+<form action="/login/create_cookie" method="POST">
+
+<P>
+   <select name="period">
+   <option value="0">ALL</option>
+    <%@periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%#= ' selected' if period.id == @personalcharge.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+ <input type="submit" value="set current period" />
+ </p> 
+
+<p id = "notice">
+Login time:<%=@last_login.title%>||Now period:<%=@now_period.number if not @now_period.nil? %>||Now user<%= ss = Person.find(session[:user_id]).grade%>
+
+</p>
+</form>  
+
+

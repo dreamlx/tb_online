@@ -1,0 +1,37 @@
+<h1>Listing deductions</h1>
+
+<table>
+  <tr>
+    <th>Job code</th>
+  <% for column in Deduction.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for deduction in @deductions %>
+  <tr>
+    <td><%=deduction.project.job_code%></td>    
+  <% for column in Deduction.content_columns %>
+    <td><%=h deduction.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => deduction %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => deduction if deduction.project.status.title == 'Active'%></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => deduction }, 
+    :confirm => 'Are you sure?', :post => true if deduction.project.status.title == 'Active'%></td>
+  </tr>
+<% end %>
+</table>
+
+<% for page in @deduction_pages -%>
+    <%= link_to_unless(params[:page].to_i == page.number, 
+    page.number,  {:params => 
+    params.merge('page' => page)}) %>&nbsp;
+<% end -%>
+<br />
+<%= link_to 'First page', { :page => @deduction_pages.first_page } %> 
+<%= link_to 'Previous page', { :page => @deduction_pages.current.previous } if @deduction_pages.current.previous %>
+<%= link_to 'Next page', { :page => @deduction_pages.current.next } if @deduction_pages.current.next %> 
+<%= link_to 'Last page', { :page => @deduction_pages.last_page } %> 
+<br />
+
+<%#= link_to 'New deduction', :action => 'new' %>

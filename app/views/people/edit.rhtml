@@ -1,0 +1,95 @@
+<h1>Editing person</h1>
+
+<%= start_form_tag :action => 'update', :id => @person %>
+
+  <p><label for="person_chinese_name">Chinese name</label><br/>
+  <%= text_field 'person', 'chinese_name'  %></p>
+
+  <p><label for="person_english_name">English name</label><br/>
+  <%= text_field 'person', 'english_name'  %></p>
+
+  <p><label for="person_employee_number">Employee number</label><br/>
+  <%= text_field 'person', 'employee_number'  %></p>
+  
+  <p>
+  <b>Gender:</b><br>
+   <select name="person[gender_id]">
+    <% @gender.each do |dict| %>
+       <option value="<%= dict.id %>" 
+         <%= ' selected' if dict.id == @person.gender_id %>>
+         <%=dict.title %>
+       </option>
+    <% end %>
+   </select>
+  </p>  
+
+  <p><b>Department:</b><br>
+   <select name="person[department_id]">
+    <% @departments.each do |dict| %>
+       <option value="<%= dict.id %>" 
+         <%= ' selected' if dict.id == @person.department_id %>>
+         <%=dict.title %>
+       </option>
+    <% end %>
+   </select>
+  </p> 
+  
+  <p><label for="person_grade">Grade</label><br/>
+  <%= text_field 'person', 'grade'  %></p>
+
+  <p><label for="person_charge_rate">Charge rate</label><br/>
+  <%= text_field 'person', 'charge_rate'  %></p>
+
+  <p><label for="person_employeement_date">Employeement date</label><br/>
+  <%= date_select 'person', 'employeement_date'  %></p>
+
+  <p><label for="person_address">Address</label><br/>
+  <%= text_field 'person', 'address'  %></p>
+
+  <p><label for="person_postalcode">Post code</label><br/>
+  <%= text_field 'person', 'postalcode'  %></p>
+
+  <p><label for="person_mobile">Mobile</label><br/>
+  <%= text_field 'person', 'mobile'  %></p>
+
+  <p><label for="person_tel">Home number</label><br/>
+  <%= text_field 'person', 'tel'  %></p>
+
+  <p><label for="person_extension">Extension</label><br/>
+  <%= text_field 'person', 'extension'  %></p>
+
+  <p><b>GMU:</b><br>
+   <select name="person[GMU_id]">
+    <% @dicts.each do |dict| %>
+       <option value="<%= dict.id %>" 
+         <%= ' selected' if dict.id == @person.GMU_id %>>
+         <%=dict.code+"||"+dict.title %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+
+  <p>
+  <b>Status:</b><br>
+   <select name="person[status_id]">
+    <% @status.each do |dict| %>
+       <option value="<%= dict.id %>" 
+         <%= ' selected' if dict.id == @person.status_id %>>
+         <%= dict.title %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+
+  <p><label for="person_created_on">Created on</label><br/>
+  <%= datetime_select 'person', 'created_on'  %></p>
+
+  <p><label for="person_updated_on">Updated on</label><br/>
+  <%= datetime_select 'person', 'updated_on'  %></p>
+   
+  <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+
+
+<%= link_to 'Show', :action => 'show', :id => @person %> |
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,46 @@
+<h1>Listing billings</h1>
+
+<hr>
+<table>
+  <tr>
+    <th>Job code</th>
+    
+    <% for column in Billing.content_columns %>
+      <% next if column.human_name =='Created on' or column.human_name =='Updated on'%>
+      <th><%= column.human_name %></th>
+    <% end %>
+  </tr>
+  
+  <% for billing in @billings %>
+    <tr>
+      <td><%=billing.project.job_code%></td> 
+    
+      <% for column in Billing.content_columns %>
+        <% next if column.human_name =='Created on' or column.human_name =='Updated on'%>
+        <%if column.human_name =='Status'%>
+          <td><%=h "outstanding" if billing.send(column.name).to_i == 0 %><%=h "received" if billing.send(column.name).to_i == 1 %></td>
+        <% else %>
+          <td nowrap><%=h billing.send(column.name) %></td>
+        <% end %>
+      <% end %>
+    
+      <td><%= link_to 'Show', :action => 'show', :id => billing %></td>
+      <td><%= link_to 'Edit', :action => 'edit', :id => billing if billing.status == '0'%></td>
+      <td><%= link_to 'Destroy', { :action => 'destroy', :id => billing,  :prj_id =>billing.project_id  }, 
+        :confirm => 'Are you sure?', :post => true if billing.status == '0'%></td>
+    </tr>
+  <% end %>
+</table>
+<% for page in @billing_pages -%>
+  <%= link_to_unless(params[:page].to_i == page.number, 
+    page.number,  {:params => 
+        params.merge('page' => page)}) %>&nbsp;
+<% end -%>
+<br />
+<%= link_to 'Previous page', { :page => @billing_pages.current.previous } if @billing_pages.current.previous %>
+<%= link_to 'Next page', { :page => @billing_pages.current.next } if @billing_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New billing', :action => 'new' , :id=>params[:id] %>
+|<%= link_to 'Back', :controller =>'projects', :action => 'show', :id =>params[:id] %>

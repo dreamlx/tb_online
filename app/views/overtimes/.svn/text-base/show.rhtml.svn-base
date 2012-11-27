@@ -1,0 +1,9 @@
+
+<b>employee number</b>:<%=@overtime.person.employee_number%><br/><br/>
+<b>english_name</b>:<%=@overtime.person.english_name%><br/><br/>
+<b>date</b>:<%=@overtime.ot_date%><br/><br/>
+<b>hours type</b>:<%=@overtime.ot_type.title%><br/><br/>
+<b>real hours</b>:<%=@overtime.real_hours%><br/><br/>
+<b>ot hours</b>:<%=@overtime.ot_hours%><br/><br/>
+<%= link_to 'Edit', :action => 'edit', :id => @overtime %> |
+<%= link_to 'Back', :action => 'list' %>

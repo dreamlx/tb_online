@@ -1,0 +1,216 @@
+class ProjectsController < ApplicationController
+  # GET /projects
+  # GET /projects.xml
+  auto_complete_for :client,:english_name
+  auto_complete_for :project,:job_code
+  def index
+    
+    #@projects = Project.find(:all)
+    @project = Project.new(params[:project])
+    @client = Client.new(params[:client])
+    str_order = 'projects.status_id,job_code'
+    str_status = " and title = 'Active' "
+    sql = ' 1 '
+    #sql += str_status
+    sql += " and english_name like '%#{@client.english_name}%' " unless (@client.english_name.nil? or @client.english_name.blank?)
+    sql += " and partner_id = #{@project.partner_id} " unless @project.partner_id == 0 or @project.partner_id.nil?
+    sql += " and manager_id = #{@project.manager_id} " unless @project.manager_id == 0 or @project.manager_id.nil?
+    sql += " and job_code like '%#{@project.job_code}%' " unless @project.job_code.nil? or @project.job_code.blank?
+    @projects = Project.paginate  :page => params[:page], 
+      :per_page => 20,
+      :order=>str_order,
+      :include =>[:status,:client],
+      :conditions=>sql
+        
+    respond_to do |format|
+      format.html # index.rhtml
+      format.xml  { render :xml => @projects.to_xml }
+    end
+  end
+
+  # GET /projects/1
+  # GET /projects/1.xml
+  def show
+    @project = Project.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.rhtml
+      format.xml  { render :xml => @project.to_xml }
+    end
+  end
+
+  # GET /projects/new
+  def new
+    @project = Project.new
+  end
+
+  # GET /projects/1;edit
+  def edit
+    @project = Project.find(params[:id])
+  end
+
+  # POST /projects
+  # POST /projects.xml
+  def create
+    @project = Project.new(params[:project])
+    if @project.job_code == nil or @project.job_code ==""                       
+      @project.job_code =@project.client.client_code+@project.GMU.code+@project.service_code.code
+    end
+    
+    respond_to do |format|
+      if @project.save
+        if @project.service_code.code.to_i < 60 or @project.service_code.code.to_i >68
+          add_expense_observer(@project.job_code,200,"if prj code not in 60-68,then add 200")
+        end
+        flash[:notice] = _('%s was successfully created.', Project.human_name)
+        format.html { redirect_to project_url(@project) }
+        format.xml  { head :created, :location => project_url(@project) }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @project.errors.to_xml }
+      end
+    end
+  end
+
+  # PUT /projects/1
+  # PUT /projects/1.xml
+  def update
+    @project = Project.find(params[:id])
+    if @project.job_code.nil? or @project.job_code.blank?                      
+      @project.job_code =@project.client.client_code+@project.GMU.code+@project.service_code.code
+    end
+    
+    respond_to do |format|
+      if @project.update_attributes(params[:project])
+        flash[:notice] = _('%s was successfully updated.', Project.human_name)
+        format.html { redirect_to project_url(@project) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @project.errors.to_xml }
+      end
+    end
+  end
+  
+  #CLOSE 
+  def close
+    closed_item = Dict.find(:first,:conditions =>"category ='prj_status' and code = '0'")
+    #需要判断balance是否为0，如果有结余！=0 则无法close
+    allow_closed = is_balance(Project.find(params[:id]),Period.today_period)
+    respond_to do |format|
+      if allow_closed and Project.find(params[:id]).update_attribute(:status_id,closed_item.id)
+        flash[:notice] ="Poject was successfully closed"
+        format.html {redirect_to projects_path}# index.rhtml
+        format.xml  { render :xml => @projects.to_xml }
+      else
+        flash[:notice] ="Poject error updated with projects"
+        flash[:notice]= "<font color=red>ballance is not 0!</font>" unless allow_closed
+        format.html {redirect_to projects_path}# index.rhtml
+      end
+      
+      
+    end
+  end
+
+  # DELETE /projects/1
+  # DELETE /projects/1.xml
+  def destroy
+    @project = Project.find(params[:id])
+    @project.destroy
+
+    respond_to do |format|
+      format.html { redirect_to projects_url }
+      format.xml  { head :ok }
+    end
+  end
+  
+  
+  private
+
+
+  def is_balance(t_project,t_period)
+    #@info = Personalcharge.new(params[:personalcharge])
+    @statuses   = Dict.find(:all,
+      :conditions =>"category ='prj_status' and code = '1'")# 1 open, 0 close
+                   
+    #sql_p     = " starting_date => '2007-09-16' or status_id = #{@statuses.id}}"
+    @project = t_project
+    @now_period = t_period
+    
+    @report = TimeReport.new
+    @report.for_report(@project, @now_period)
+    #charges
+    @personalcharges = @report.personalcharges
+    @p_currents = @report.p_currents
+    @p_cumulatives = @report.p_cumulatives
+    @p_total  = @report.p_total
+    @user_list = @report.user_list
+    #expenses
+    @e_current = @report.e_current
+    @e_cumulative  = @report.e_cumulative
+    sum_expenses = 0
+    sum_e_total = 0
+				
+    sum_expenses 	+= @e_current.courrier
+    sum_e_total 	+= @e_cumulative.courrier
+    sum_expenses 	+= @e_current.postage
+    sum_e_total 	+= @e_cumulative.postage
+    sum_expenses 	+= @e_current.payment_on_be_half
+	
+    sum_expenses 	+= @e_current.report_binding
+    sum_e_total 	+= @e_cumulative.report_binding
+    sum_expenses 	+= @e_current.stationery
+    sum_e_total 	+= @e_cumulative.stationery
+    sum_expenses 	+= @e_current.tickets
+    sum_e_total 	+= @e_cumulative.tickets
+    #sum_expenses 	+= @e_current.commission
+    #sum_e_total 	+= @e_cumulative.commission
+    #sum_expenses 	+= @e_current.outsourcing
+    #sum_e_total 	+= @e_cumulative.outsourcing
+    sum_e_total 	+= @e_cumulative.payment_on_be_half
+    #billings
+    @billings  = @report.billings
+    @billing_total   = @report.b_total
+    @bt={}
+    @bt        = @report.bt   
+    sum_expenses 	+=@bt["current"]
+    sum_e_total 	+=@bt["cumulative"]
+    @sum_all_expenses = sum_expenses
+    @sum_e_total    = sum_e_total  	
+    #initialfees
+    @initialfee = @report.initialfee
+    @sum_initialfee = @initialfee.courrier + @initialfee.postage + 
+      @initialfee.payment_on_be_half + @initialfee.report_binding +
+      @initialfee.stationery + @initialfee.tickets + @initialfee.commission + 
+      @initialfee.outsourcing + @initialfee.business_tax
+    @initialdeduction = @report.deduction
+    
+    #PFA and UFA
+    @UFA_fees  = @report.UFA_fees
+    @UFA_total   = @report.UFA_total
+    
+    @total_reimbs =  @p_total.travel_allowance  + @p_total.reimbursement + @p_total.meal_allowance
+    #计算
+     
+    service_total_charges = @p_total.service_fee + @initialfee.service_fee + @e_cumulative.outsourcing + @e_cumulative.commission
+    expense_total_charges = @sum_e_total  +@total_reimbs + @sum_initialfee + @initialfee.meal_allowance + @initialfee.travel_allowance + @initialfee.reimbursement 
+    
+    service_PFA = (@p_total.service_fee )*@project.service_PFA/100 +@initialdeduction.service_PFA
+    expense_PFA = (@total_reimbs+@sum_e_total-@e_cumulative.payment_on_be_half)*@project.expense_PFA/100 +@initialdeduction.expense_PFA
+    
+    service_billing =@billing_total.service_billing + @initialdeduction.service_billing
+    expense_billing = @billing_total.expense_billing + @initialdeduction.expense_billing
+    
+    service_UFA = @UFA_total.service_UFA+@initialdeduction.service_UFA
+    expense_UFA = @UFA_total.expense_UFA+@initialdeduction.expense_UFA
+    
+    service_balance = service_total_charges - service_PFA - service_billing - service_UFA
+    expense_balance = expense_total_charges - expense_PFA - expense_billing - expense_UFA
+    
+    if service_balance ==0 and  expense_balance == 0 #为0 允许close
+      return true
+    else
+      return false
+    end
+  end
+end

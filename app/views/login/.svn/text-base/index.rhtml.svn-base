@@ -1,0 +1,36 @@
+
+    <div id="cartmenu">
+      <a href="/login">Home</a>
+      <a href="/projects">Project</a>
+      <a href="/people">employee</a>
+      <a href="/reports">report</a>
+      
+      <a href="/clients/list">Clients</a>
+      <a href="/dicts">dictionary</a>
+      <a href="/industries">industry</a>
+      <a href="/periods">period</a>
+      <a href="/login">login setting</a>
+    </div>
+   
+ <div id="menu"> 
+<form action="/login/create_cookie" method="POST">
+
+<P>
+   <select name="period">
+   <option value="0">ALL</option>
+    <%@periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%#= ' selected' if period.id == @personalcharge.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+ <input type="submit" value="set period" />  
+ </p> 
+
+<p id = "notice">
+Login time:<%=@last_login.title%>||Now period:<%=@now_period.number if not @now_period.nil? %>||Now user<%=session[:user_id]%>
+</p>
+</form>  
+</div>    
+

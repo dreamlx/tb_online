@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title><%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'tb' %>
+<%= javascript_include_tag :defaults,'calenderJS','Calendar4'%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+  <div id="banner">
+    <%= render :partial => '/layouts/banner' %>
+
+  </div>
+  
+<p style="color: green"><%= flash[:notice] %></p>          
+  <div id="columns">
+    <div id="side">
+      <a href="/login">Home</a>
+      <br>
+      <% if session[:other1] == "project" and session[:other1] != ""%>
+      <a href="/projects">Project</a>
+      <br>
+      <%elsif session[:other1] == "project&client" and session[:other1] != ""%>
+      <a href="/projects">Project</a>
+       <br>
+      <a href="/clients/list">Clients</a>
+      <br>
+      <%elsif session[:other1] == "employee&timereport" and session[:other1] != ""%>
+      <a href="/people">Employee</a>
+      <br>
+      <%= link_to '#TimeReport',      :controller => 'personalcharges',   :action =>'search' %>
+      <br>
+      <% else%>
+      <a href="/reports">Reports</a>      
+<% if session[:allowed] == 'yes' %>      
+      <a href="/projects">Project</a>
+      <br>
+      <a href="/billings/new">Billings</a>      
+      <br>
+      <a href="/people">Employee</a>
+      <br>
+      <a href="/clients/list">Clients</a>
+      <br>
+     
+      <hr>
+        <a href="#">search&list</a>:
+
+
+        <%= link_to '#Expense',           :controller => 'expenses', :action =>'search' %>
+        <%= link_to '#TimeReport',      :controller => 'personalcharges',   :action =>'search' %>
+        <%#= link_to '#Initialfee',           :controller => 'initialfees', :action =>'list' %>
+        <%#= link_to '#InitDeduction',           :controller => 'deductions', :action =>'list' %>                
+<% end%> 
+        <%= link_to '#Billing',           :controller => 'billings', :action =>'search' %>
+      <hr>
+
+      <a href="/login/peferences">#Peferences</a>
+     <% end %>
+      <a href="/login/logout">logout</a>  
+    </div>
+
+    <div id="main">
+      <%= @content_for_layout %>
+    </div>
+
+  </div>
+  <div id="footer">
+    <%= render :partial => '/layouts/footer' %>
+  </div>
+</body>
+</html>

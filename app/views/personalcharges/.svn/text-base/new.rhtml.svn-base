@@ -1,0 +1,38 @@
+<h1>New personalcharge</h1>
+<div>don't key [Service fee]</div>
+<%= start_form_tag :action => 'create' %>
+  <p><b>Person:</b><br>
+   <select name="personalcharge[person_id]">
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @personalcharge.person_id %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+  </p>  
+  <p><b>Project:</b><br>
+   <select name="personalcharge[project_id]">
+    <% @projects.each do |project| %>
+       <option value="<%= project.id %>" 
+         <%= ' selected' if project.id == @personalcharge.project_id %>>
+         <%=project.job_code %>
+       </option>
+    <% end %>
+   </select>
+  </p> 
+  <p><b>Period:</b><br>
+   <select name="personalcharge[period_id]">
+    <% @periods.each do |period| %>
+       <option value="<%= period.id %>" 
+         <%= ' selected' if period.id == @personalcharge.period_id %>>
+         <%=period.number %>
+       </option>
+    <% end %>
+   </select>
+  </p>   
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<%= end_form_tag %>
+
+<%= link_to 'Back', :action => 'list', :id => @personalcharge.project_id, :person_id => @personalcharge.person_id %>

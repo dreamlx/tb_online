@@ -1,0 +1,35 @@
+<h1>Listing clients</h1>
+
+<table>
+<tr>
+<td>Chinese name</td>
+<td>English name</td>
+<td>Client code</td>
+
+<!--show,edit,destroy-->
+<td></td>
+<td></td>
+<td></td>
+</tr>
+  
+<% for client in @clients %>
+  <tr>
+    <td><%=client.chinese_name%></td>
+    <td><%=client.english_name%></td>
+    <td><b><%=client.client_code%></b></td>
+
+    <td><%= link_to 'Show', :action => 'show', :id => client %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => client %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => client }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New client', :action => 'new' %>
+<hr>
+ <form action="./search" method="POST">
+ Client Code:<%= text_field("client", "client_code") %>
+ <input type="submit" value="Search" /> 
+ </form>

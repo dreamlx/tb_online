@@ -1,0 +1,41 @@
+<%= error_messages_for 'overtime' %>
+
+<!--[form:overtime]-->
+<p>
+  <b>Person:</b><br>
+   <select name="overtime[person_id]">
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @overtime.person_id %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+   </select>
+  </p>  
+<p>
+  <b>OT type:</b><br>
+   <select name="overtime[ot_type_id]">
+    <% @ot_types.each do |ot_type| %>
+       <option value="<%= ot_type.id %>" 
+         <%= ' selected' if ot_type.id == @overtime.ot_type_id %>>
+         <%=ot_type.title+"|"+ot_type.code %>
+       </option>
+    <% end %>
+   </select>
+  </p>
+
+<p><label for="overtime_ot_date">Ot date</label><br/>
+<%= date_select 'overtime', 'ot_date'  %></p>
+<p><label for="overtime_real_hours">Real hours</label><br/>
+<%= text_field 'overtime', 'real_hours'  %></p>
+<p><label for="overtime_ot_hours">Ot hours</label><br/>
+<%= text_field 'overtime', 'ot_hours'  %></p>
+
+
+<p><label for="overtime_created_on">Created on</label><br/>
+<%= datetime_select 'overtime', 'created_on'  %></p>
+
+<p><label for="overtime_updated_on">Updated on</label><br/>
+<%= datetime_select 'overtime', 'updated_on'  %></p>
+<!--[eoform:overtime]-->
+

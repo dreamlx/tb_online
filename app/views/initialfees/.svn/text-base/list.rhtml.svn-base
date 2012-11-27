@@ -1,0 +1,69 @@
+<h1>Listing initialfees</h1>
+<hr>
+<table>
+  <tr>
+    <td>Job code</td>
+    <td>Fees</td>
+    <td>Commission</td>
+    <td>Outsourcing</td>
+    <td>Reimbursement</td>
+    <td><label for="initialfee_meal_allowance">Meal allowance</label></td>
+    <td><label for="initialfee_travel_allowance">Travel allowance</label></td>
+    <td><label for="initialfee_business_tax">Business tax</label></td>
+    <td><label for="initialfee_tickets">Tickets</label></td>
+    <td><label for="initialfee_courrier">Courrier</label></td>
+    <td><label for="initialfee_postage">Postage</label></td>
+    <td><label for="initialfee_stationery">Stationery</label></td>
+    <td><label for="initialfee_report_binding">Report Binding</label></td>
+    <td><label for="initialfee_payment_on_be_half">Payment on be half</label></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  
+<% for initialfee in @initialfees %>
+  <tr>
+    <td><%= initialfee.project.job_code %></td>
+    <td><%= initialfee.service_fee %></td>
+    <td><%= initialfee.commission %></td>
+    <td><%= initialfee.outsourcing %></td>
+    <td><%= initialfee.reimbursement %></td>
+    <td><%= initialfee.meal_allowance %></td>
+    <td><%= initialfee.travel_allowance  %></td>
+    <td><%= initialfee.business_tax %></td>
+    <td><%= initialfee.tickets %></td>
+    <td><%= initialfee.courrier %></td>
+    <td><%= initialfee.postage %></td>
+    <td><%= initialfee.stationery %></td>
+    <td><%= initialfee.report_binding %></td>    
+    <td><%= initialfee.payment_on_be_half %></td>
+    <%
+    @deduction =Deduction.find(:first,:conditions=>['project_id=?',initialfee.project_id])
+    if @deduction.nil?
+    linkword= 'NewDeduction'
+    else
+    linkword= 'EditDeduction'
+    end
+    %>
+    <td><%#= link_to linkword, :controller => 'deductions', :action => 'show', :prj_id=> initialfee.project_id %></td>    
+    <td><%= link_to 'Show', :action => 'show', :id => initialfee %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => initialfee if initialfee.project.status.title == 'Active'%></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => initialfee }, 
+            :confirm => 'Are you sure?', :post => true if initialfee.project.status.title == 'Active'%></td>
+  </tr>
+<% end %>
+</table>
+
+<% for page in @initialfee_pages -%>
+    <%= link_to_unless(params[:page].to_i == page.number, 
+    page.number,  {:params => 
+    params.merge('page' => page)}) %>&nbsp;
+<% end -%>
+<br />
+<%= link_to 'First page', { :page => @initialfee_pages.first_page } %> 
+<%= link_to 'Previous page', { :page => @initialfee_pages.current.previous } if @initialfee_pages.current.previous %>
+<%= link_to 'Next page', { :page => @initialfee_pages.current.next } if @initialfee_pages.current.next %> 
+<%= link_to 'Last page', { :page => @initialfee_pages.last_page } %> 
+<br />
+
+<%#= link_to 'New initialfee', :action => 'new' %>

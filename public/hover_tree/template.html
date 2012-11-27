@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8"><title>NodeFire API</title>
+
+
+
+<!--******************* Include the following sections in the head of year documents **********************-->
+
+	
+	<!--NodeFire API Script Reference [required for script enhanced menu control]-->
+
+		<script type="text/javascript" src="nodefire.js"></script>
+
+
+	<!--Menu Widget Core CSS [Do not modify!]-->
+
+		<!--[if lte IE 6]><style type="text/css">.nfPure .nfItem{width:0px;}</style><![endif]-->
+		<!--[if lte IE 7]><style type="text/css">.nfMain,.nfMain .nfLink,.nfMain .nfSubS{zoom:1;}.nfPure .nfLink:hover{z-index:1101;}.nfPure .nfItem{display:inline !important;}</style><![endif]-->
+		<style type="text/css">.nfMain, .nfSubC, .nfSubS{list-style:none;margin:0px;padding:0px;}.nfMain{position:relative;z-index:1;}.nfMain .nfSubC{visibility:hidden;position:absolute;}.nfMain .nfItem, .nfMain .nfLink{list-style:none;position:relative;display:block;white-space:nowrap;margin:0px;}.nfMain:after{content: ".";display:block;height:0px;clear:both;overflow:hidden;}.nfPure .nfItem:hover, .nfPure .nfItem:hover>.nfSubC{z-index:1101;visibility:inherit;}.nfPure .nfLink:focus{z-index:1102;}.nfMain .nfJSActiveItem{z-index:1101;}.nfMain .nfJSShowSub{z-index:1101;visibility:inherit;}.nfMain .nfItem div.nfLink {cursor:default;}.nfMain .nfItem {float:left;}.nfMain .nfItem .nfItem {float:none;}.nfMain .nfItem .nfSubC {top:100%;left:0px;width:auto;}.nfMain .nfSubC .nfItem .nfSubC {top:0px;left:100%;width:auto;}</style>
+
+
+	<!--Menu Widget Core CSS - Tree Style Layout [Do not modify!]-->
+
+		<style type="text/css">.nfMain .nfItem {float:none;width:auto;}.nfMain .nfSubS .nfSubC {height:auto;}.nfMain .nfJSShowSub {position:relative;left:0px !important;top:0px  !important;}.nfMain .nfSubC .nfJSShowSub {position:absolute;top:0px  !important;left:100%  !important;}.nfPure .nfItem:hover>.nfSubC {position:relative;left:0px;top:0px;}.nfPure .nfSubC .nfItem:hover>.nfSubC {position:absolute;top:0px;left:100%;}</style>
+
+	
+	<!--Menu Widget CSS Styles [edit styles.css to change the look of the menu]-->
+	
+		<link rel="stylesheet" href="styles.css" type="text/css">
+
+
+
+<!--******************* End NodeFire head sections **********************-->
+
+
+
+	
+</head><body style='margin:60px;background-color:#fff;'>
+
+
+
+
+<!--***************** Include your custom menu structure within the body of your documents. *********************
+                      (The menu will position itself as a block level element at the point of insertion.)*********-->
+
+
+<ul id="myMenu" class="nfMain nfPure">
+
+	<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Products</a>
+		
+		
+		<div class="nfSubC"><dl class="nfSubS">
+
+			<dt class="myTitle myTitleTop">Download Now!</dt>
+			<dd class="nfItem"><a class="nfLink" href="javascript:addItems()">Mini Games</a></dd>
+			<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Solar Orbating</a>
+
+				<div class="nfSubC">
+				<dl class="nfSubS">
+
+					<dt class="myTitle myTitleTop">Round 'n Round</dt>	
+					<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Jupiter Rings</a></dd>
+					<dd class="nfItem"><a class="nfLink" href="javascript:setpath()">Roman Sea</a>
+					<dd class="nfItem"><a class="nfLink" href="javascript:setpath()">Gas Giant</a>
+					<dd class="nfItem"><a class="nfLink" href="javascript:setpath()">Dwarf Planets</a>
+
+						<dl class="nfSubC nfSubS">
+							<dt class="myTitle myTitleTop">Little Planets</dt>	
+							<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Pluto</a></dd>
+							<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Haumea</a></dd>
+							<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Makemake</a></dd>
+							<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Eris</a></dd>
+						</dl>
+
+					</dd>
+
+					<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Useless Link</a></dd>
+					<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Corporate Affairs</a></dd>
+					<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Deep Space</a></dd>
+					<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Hard Gravity</a></dd>
+				</dl>
+				</div>
+
+			</dd>
+			<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Broken Glass!</a>
+
+			<dt class="myTitle">Industry Leading</dt>
+			<dd class="nfItem"><a class="nfLink" href="javascript:addItems()">Potato Battery</a></dd>
+			<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Methane Power</a>
+			
+			<dd class="nfItem"><a class="nfLink" href="javascript:void(0)">Light Bulbs</a></dd>
+
+
+		</dl></div>
+	</li>
+
+
+	<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Support</a>
+
+		<div class="nfSubC"><ul class="nfSubS">
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Support Home</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Customer Service</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Knowledge Base</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Books</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Support Programs</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Forums</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Documentation</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Updates</a></li>
+		</ul></div>
+	
+	</li>
+
+
+	<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Communities</a>
+	
+				
+		<div class="nfSubC"><div class="nfSubS">
+			
+			<div class="myTitle myTitleTop">Groups</div>
+			<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Diamond Mines</a></div>
+
+			<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Press</a>
+
+				<div class="nfSubC nfSubS">
+					<div class="myTitle myTitleTop">Connect Now</div>	
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Fox News</a></div>
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">My AP Stream</a></div>
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Big Money Outlet</a></div>
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">MSNBC Live</a></div>
+				</div>
+
+			</div>
+
+			<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Jobs</a>
+
+				<div class="nfSubC nfSubS">
+					<div class="myTitle myTitleTop">Work Programs</div>	
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Minimum Wage</a></div>
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Student Hours</a></div>
+					<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Unemployment</a></div>
+				</div>
+
+			</div>
+
+			<div class="myTitle">Industries</div>	
+			<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Heavy Metal</a></div>
+			<div class="nfItem"><a class="nfLink" href="javascript:void(0)">Turbines</a></div>
+
+				
+		</div></div>
+		
+
+	</li>
+
+
+	<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Company</a>
+
+		<div class="nfSubC"><ul class="nfSubS">
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Support Home</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Customer Service</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Knowledge Base</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Books</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Support Programs</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Forums</a></li>
+			<li class="nfItem"><a class="nfLink" href="javascript:void(0)">Documentation</a></li>
+		</ul></div>
+			
+	</li>
+
+
+</ul>
+
+
+<!--***************** End menu structure. *********************-->
+
+
+
+
+<!--******* Custom API Script - Place custom scripts in the body, after the structure, or attach to an onload type event. ******
+            (This script example enhances the pure CSS menu with scripted API control. *****-->
+
+
+	<script type="text/javascript">
+
+
+
+		/* ~~~~~~~ Create a new menu widget object with the API. ~~~~~~~~~~~~~*/
+
+		//Menu configuration properties (hide and show timers in Milliseconds)
+		var config = {showTimerMS:250,hideTimerMS:250};
+
+		//Pass the menu object construcor an ID or object representing the root node of your structure
+		var myMenu = new NF.widget.menu("myMenu", config);
+	
+
+
+		/* ~~~~~~~ Show Sub Animation Effect ~~~~~~~~~~~~~*/
+
+		//Create a show sub animation clip (Use the CSS clip style to reveal the sub)
+		var showClip = new NF.anim.clip({height:{start:'0px', end:{value:"100%",refNode:"self"}}}, {frames:10, reset:true, hook:'NFplayOnSubShow',  startStyles:{overflow:'hidden'}, endStyles:{overflow:'visible'}});	
+	
+		//Create a hide sub animation clip
+		var hideClip = new NF.anim.clip({height:{start:{value:"100%",refNode:"self"}, end:'0px'}}, {frames:10, reset:true, hook:'NFplayOnSubHide', startStyles:{overflow:'hidden'}});	
+		
+		//Get all sub menu containers
+		var subs = NF.widget.hierStructure.getSubsByLevel($("myMenu"), "level==0");
+	
+		//Apply the hide and show clips to the menu subs as transitions
+		NF.anim.transition.applyTimeline(subs, showClip);
+		NF.anim.transition.applyTimeline(subs, hideClip);
+
+
+
+		
+		/* ~~~~~~~ Activate the menu object. (Converts the pure CSS menu to a script enhanced widget) ~~~~~~~~~~~~~*/
+
+		//Activate the menu
+		myMenu.activate();
+
+
+	
+	</script>
+
+
+
+<!--***************** End Custom Script *********************-->
+
+
+
+
+</body></html>

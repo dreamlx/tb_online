@@ -1,0 +1,11 @@
+<font color=red><%= @initialfee.project.job_code%></font> initialfee:
+<hr>
+<% for column in Initialfee.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @initialfee.send(column.name) %>
+</p>
+<% end %>
+<%= link_to 'Destroy', { :action => 'destroy', :id => @initialfee }, 
+        :confirm => 'Are you sure?', :post => true          if @initialfee.project.status.title == 'Active'%>|
+<%= link_to 'Edit', :action => 'edit', :id => @initialfee   if @initialfee.project.status.title == 'Active'%> |
+<%= link_to 'Back', :controller =>'projects', :action => 'show', :id => @initialfee.project_id %>

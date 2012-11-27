@@ -1,0 +1,47 @@
+<% @page_title = "edit a User" -%>
+
+<%= error_messages_for 'user' %>
+
+<%= start_form_tag :action => 'update', :id => @user %>
+
+<table>
+
+<tr>
+    <td>LoginUser name:</td>
+    <td><%=@user.name%></td>
+</tr>
+
+<tr>
+    <td>Password:</td>
+    <td><%= password_field("user", "password") %></td>
+</tr>
+<% @admin = get_role(session[:user_id],'admin') %>
+<tr>
+    <td>Employee name:</td>
+    <td>
+    <select name="user[person_id]" <%="disabled='true'" if !@admin%>>
+    <option value="">ALL</option>   
+    <% @people.each do |person| %>
+       <option value="<%= person.id %>" 
+         <%= ' selected' if person.id == @user.person_id %>>
+         <%=person.english_name %>
+       </option>
+    <% end %>
+    </select>
+    </td>
+</tr>
+
+<tr>
+    <td>other:</td>
+    <td><%= text_field("user", "other1") %></td>
+</tr>
+
+<tr>
+    <td></td>
+    <td><input type="submit" value=" edit " /></td>
+</tr>
+
+</table>
+
+<%= end_form_tag %>
+<%= link_to 'Back' ,:action =>'list'%>

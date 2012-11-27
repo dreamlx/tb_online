@@ -1,0 +1,17 @@
+Project
+<hr>
+
+Job code : <%=@personalcharge.project.job_code%>
+<br>
+period : <%=@personalcharge.period.number%>
+<br>
+Employee:<%=@personalcharge.person.english_name %>
+<hr>
+<% for column in Personalcharge.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @personalcharge.send(column.name) %>
+</p>
+<% end %>
+
+<%#= link_to 'Edit', :action => 'edit', :id => @personalcharge %> |
+<%= link_to 'Back', :action => 'prj_list', :id => @personalcharge.project_id%>
