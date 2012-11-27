@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   belongs_to  :person
     
   attr_accessor :password
-  attr_accessible :name, :password, :person_id, :id, :other1, :auth
+  attr_accessible :name, :password, :person_id, :id, :other1
   validates_uniqueness_of :name
   validates_presence_of :name, :password
   
